@@ -5,7 +5,7 @@ public class PlaneCameraInputHandler : MonoBehaviour, Dungeon_InputActions.IDung
 {
     [SerializeField]
     private PlaneCameraController controller;
-    
+
     private Dungeon_InputActions inputActions;
 
     private void Awake()
@@ -14,7 +14,7 @@ public class PlaneCameraInputHandler : MonoBehaviour, Dungeon_InputActions.IDung
         inputActions.Dungeon_Camera.SetCallbacks(this);
         inputActions.Dungeon_Camera.Enable();
     }
-
+    
     public void OnPan(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -22,6 +22,7 @@ public class PlaneCameraInputHandler : MonoBehaviour, Dungeon_InputActions.IDung
             controller.OnPan(context);
         }
     }
+
     public void OnDoubleClick(InputAction.CallbackContext context)
     {
         controller.OnDoubleTap(context);
@@ -46,5 +47,12 @@ public class PlaneCameraInputHandler : MonoBehaviour, Dungeon_InputActions.IDung
     public void OnScroll(InputAction.CallbackContext context)
     {
         controller.OnScroll(context);
+    }
+    public void OnPointerPosition(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            controller.OnPointerPosition(context);
+        }
     }
 }

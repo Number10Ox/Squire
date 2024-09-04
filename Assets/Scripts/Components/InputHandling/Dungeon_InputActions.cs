@@ -1062,6 +1062,15 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PointerPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""5dd6862d-faf3-4eb8-9d6e-41560635e169"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1117,6 +1126,17 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Press End"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""371efb56-810f-4dbd-a85e-75acaff8de99"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PointerPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1216,6 +1236,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         m_Dungeon_Camera_PressEnd = m_Dungeon_Camera.FindAction("Press End", throwIfNotFound: true);
         m_Dungeon_Camera_Scroll = m_Dungeon_Camera.FindAction("Scroll", throwIfNotFound: true);
         m_Dungeon_Camera_Pan = m_Dungeon_Camera.FindAction("Pan", throwIfNotFound: true);
+        m_Dungeon_Camera_PointerPosition = m_Dungeon_Camera.FindAction("PointerPosition", throwIfNotFound: true);
     }
 
     ~@Dungeon_InputActions()
@@ -1517,6 +1538,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dungeon_Camera_PressEnd;
     private readonly InputAction m_Dungeon_Camera_Scroll;
     private readonly InputAction m_Dungeon_Camera_Pan;
+    private readonly InputAction m_Dungeon_Camera_PointerPosition;
     public struct Dungeon_CameraActions
     {
         private @Dungeon_InputActions m_Wrapper;
@@ -1526,6 +1548,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         public InputAction @PressEnd => m_Wrapper.m_Dungeon_Camera_PressEnd;
         public InputAction @Scroll => m_Wrapper.m_Dungeon_Camera_Scroll;
         public InputAction @Pan => m_Wrapper.m_Dungeon_Camera_Pan;
+        public InputAction @PointerPosition => m_Wrapper.m_Dungeon_Camera_PointerPosition;
         public InputActionMap Get() { return m_Wrapper.m_Dungeon_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1550,6 +1573,9 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @Pan.started += instance.OnPan;
             @Pan.performed += instance.OnPan;
             @Pan.canceled += instance.OnPan;
+            @PointerPosition.started += instance.OnPointerPosition;
+            @PointerPosition.performed += instance.OnPointerPosition;
+            @PointerPosition.canceled += instance.OnPointerPosition;
         }
 
         private void UnregisterCallbacks(IDungeon_CameraActions instance)
@@ -1569,6 +1595,9 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @Pan.started -= instance.OnPan;
             @Pan.performed -= instance.OnPan;
             @Pan.canceled -= instance.OnPan;
+            @PointerPosition.started -= instance.OnPointerPosition;
+            @PointerPosition.performed -= instance.OnPointerPosition;
+            @PointerPosition.canceled -= instance.OnPointerPosition;
         }
 
         public void RemoveCallbacks(IDungeon_CameraActions instance)
@@ -1663,5 +1692,6 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         void OnPressEnd(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
         void OnPan(InputAction.CallbackContext context);
+        void OnPointerPosition(InputAction.CallbackContext context);
     }
 }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(CinemachineBrain))]
 public class PlaneCameraController : MonoBehaviour
@@ -39,12 +40,15 @@ public class PlaneCameraController : MonoBehaviour
     private bool useDolly;
     private float currentZoom;
     private LTDescr zoomTween;
+
+    private Vector2 pointerPosition;
     private bool pressing;
 
     [SerializeField]
     private ZoomBounds zoom;
 
     #region Unity Methods
+
     void Awake()
     {
         MainCamera = Camera.main;
@@ -65,7 +69,7 @@ public class PlaneCameraController : MonoBehaviour
 
         groundPlane = new Plane(Vector3.up, new Vector3(0.0f, groundPlaneY, 0.0f));
     }
-    
+
     void OnValidate()
     {
         Vector3 lookAtPosition = cameraLookAt.position;
@@ -89,7 +93,7 @@ public class PlaneCameraController : MonoBehaviour
             lastViewportUpdatePosition = currentViewportPosition;
         }
     }
-    
+
     #endregion
 
     #region Interface for Game-specific InputHandler
@@ -100,9 +104,14 @@ public class PlaneCameraController : MonoBehaviour
         if (pressing)
         {
             Vector2 delta = context.ReadValue<Vector2>();
-            Vector3 startPoint = ScreenPointToGround(delta - delta);
-            Vector3 endPoint = ScreenPointToGround(delta);
+            Vector3 startPoint = ScreenPointToGround(pointerPosition - delta);
+            Vector3 endPoint = ScreenPointToGround(pointerPosition);
             Vector3 panAmount = startPoint - endPoint;
+
+            Debug.LogFormat("OnPan: delta: ({0}, {1}) pointerPos: ({2}, {3}, panAmount: {4}", delta.x, delta.y,
+                pointerPosition.x,
+                pointerPosition.y, panAmount);
+
             PanTo(CameraLookAtPosition + panAmount);
         }
     }
@@ -117,13 +126,11 @@ public class PlaneCameraController : MonoBehaviour
     public void OnPressBegin(InputAction.CallbackContext context)
     {
         pressing = true;
-        Debug.Log("Press Begin");
     }
-    
+
     public void OnPressEnd(InputAction.CallbackContext context)
     {
         pressing = false;
-        Debug.Log("Press End");
     }
 
     public void OnDoubleTap(InputAction.CallbackContext context)
@@ -134,10 +141,19 @@ public class PlaneCameraController : MonoBehaviour
             PanTo(startingPosition, zoom.StartingValue);
         }
     }
-    
+
+    public void OnPointerPosition(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            pointerPosition = context.ReadValue<Vector2>();
+        }
+    }
+
     #endregion
 
     #region Camera Control Methods
+
     public void PanTo(Vector3 position)
     {
         PanTo(position, currentZoom);
@@ -248,16 +264,16 @@ public class PlaneCameraController : MonoBehaviour
         private set => cameraLookAt.position = new Vector3(value.x, groundPlaneY, value.z);
     }
 
-    #endregion 
-    
+    #endregion
+
     #region Private Methods
-    
+
     private bool ViewportMoved()
     {
         Vector3 camPos = MainCamera.transform.position;
         float magnitudeSqr = (camPos - lastViewportUpdatePosition).sqrMagnitude;
         return cameraMoveEpsilon * cameraMoveEpsilon < magnitudeSqr;
     }
-    
+
     #endregion
 }

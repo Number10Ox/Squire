@@ -37,8 +37,10 @@ public class CameraBounds
     {
         if (useBounds)
         {
+            // Debug.LogFormat("Input bounds x: {0}, y: {1}, ", cameraPosition.x, cameraPosition.y);
             cameraPosition.x = Mathf.Clamp(cameraPosition.x, min.x, max.x);
             cameraPosition.z = Mathf.Clamp(cameraPosition.z, min.y, max.y);
+            // Debug.LogFormat("Output bounds x: {0}, y: {1}, ", cameraPosition.x, cameraPosition.y);
         }
 
         return cameraPosition;
