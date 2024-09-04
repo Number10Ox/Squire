@@ -27,7 +27,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "ea48395d-7d73-403e-b95c-b135ef8d4da7",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -1005,12 +1005,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Press",
+                    "name": "Press Begin",
                     "type": "Button",
                     "id": "6d64a03d-2189-43f0-a369-f4c9bc8be746",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press,Press",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Press End",
+                    "type": "Button",
+                    "id": "4827b060-3374-4f1a-a3f4-dea828282de7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -1051,7 +1060,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Press",
+                    "action": "Press Begin",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1074,6 +1083,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5b71245-6445-472c-93a9-c845aab5cdc2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Press End",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

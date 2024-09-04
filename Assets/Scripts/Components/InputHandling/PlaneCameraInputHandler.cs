@@ -27,9 +27,20 @@ public class PlaneCameraInputHandler : MonoBehaviour, Dungeon_InputActions.IDung
         controller.OnDoubleTap(context);
     }
 
-    public void OnPress(InputAction.CallbackContext context)
+    public void OnPressBegin(InputAction.CallbackContext context)
     {
-        controller.OnPress(context);
+        if (context.started)
+        {
+            controller.OnPressBegin(context);
+        }
+    }
+
+    public void OnPressEnd(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            controller.OnPressEnd(context);
+        }
     }
 
     public void OnScroll(InputAction.CallbackContext context)

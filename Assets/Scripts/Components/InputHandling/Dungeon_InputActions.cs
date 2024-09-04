@@ -50,7 +50,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""ea48395d-7d73-403e-b95c-b135ef8d4da7"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1028,12 +1028,21 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Press"",
+                    ""name"": ""Press Begin"",
                     ""type"": ""Button"",
                     ""id"": ""6d64a03d-2189-43f0-a369-f4c9bc8be746"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press,Press"",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Press End"",
+                    ""type"": ""Button"",
+                    ""id"": ""4827b060-3374-4f1a-a3f4-dea828282de7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -1074,7 +1083,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Press"",
+                    ""action"": ""Press Begin"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1097,6 +1106,17 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5b71245-6445-472c-93a9-c845aab5cdc2"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Press End"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1192,7 +1212,8 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         // Dungeon_Camera
         m_Dungeon_Camera = asset.FindActionMap("Dungeon_Camera", throwIfNotFound: true);
         m_Dungeon_Camera_DoubleClick = m_Dungeon_Camera.FindAction("DoubleClick", throwIfNotFound: true);
-        m_Dungeon_Camera_Press = m_Dungeon_Camera.FindAction("Press", throwIfNotFound: true);
+        m_Dungeon_Camera_PressBegin = m_Dungeon_Camera.FindAction("Press Begin", throwIfNotFound: true);
+        m_Dungeon_Camera_PressEnd = m_Dungeon_Camera.FindAction("Press End", throwIfNotFound: true);
         m_Dungeon_Camera_Scroll = m_Dungeon_Camera.FindAction("Scroll", throwIfNotFound: true);
         m_Dungeon_Camera_Pan = m_Dungeon_Camera.FindAction("Pan", throwIfNotFound: true);
     }
@@ -1492,7 +1513,8 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dungeon_Camera;
     private List<IDungeon_CameraActions> m_Dungeon_CameraActionsCallbackInterfaces = new List<IDungeon_CameraActions>();
     private readonly InputAction m_Dungeon_Camera_DoubleClick;
-    private readonly InputAction m_Dungeon_Camera_Press;
+    private readonly InputAction m_Dungeon_Camera_PressBegin;
+    private readonly InputAction m_Dungeon_Camera_PressEnd;
     private readonly InputAction m_Dungeon_Camera_Scroll;
     private readonly InputAction m_Dungeon_Camera_Pan;
     public struct Dungeon_CameraActions
@@ -1500,7 +1522,8 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         private @Dungeon_InputActions m_Wrapper;
         public Dungeon_CameraActions(@Dungeon_InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @DoubleClick => m_Wrapper.m_Dungeon_Camera_DoubleClick;
-        public InputAction @Press => m_Wrapper.m_Dungeon_Camera_Press;
+        public InputAction @PressBegin => m_Wrapper.m_Dungeon_Camera_PressBegin;
+        public InputAction @PressEnd => m_Wrapper.m_Dungeon_Camera_PressEnd;
         public InputAction @Scroll => m_Wrapper.m_Dungeon_Camera_Scroll;
         public InputAction @Pan => m_Wrapper.m_Dungeon_Camera_Pan;
         public InputActionMap Get() { return m_Wrapper.m_Dungeon_Camera; }
@@ -1515,9 +1538,12 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @DoubleClick.started += instance.OnDoubleClick;
             @DoubleClick.performed += instance.OnDoubleClick;
             @DoubleClick.canceled += instance.OnDoubleClick;
-            @Press.started += instance.OnPress;
-            @Press.performed += instance.OnPress;
-            @Press.canceled += instance.OnPress;
+            @PressBegin.started += instance.OnPressBegin;
+            @PressBegin.performed += instance.OnPressBegin;
+            @PressBegin.canceled += instance.OnPressBegin;
+            @PressEnd.started += instance.OnPressEnd;
+            @PressEnd.performed += instance.OnPressEnd;
+            @PressEnd.canceled += instance.OnPressEnd;
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
@@ -1531,9 +1557,12 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @DoubleClick.started -= instance.OnDoubleClick;
             @DoubleClick.performed -= instance.OnDoubleClick;
             @DoubleClick.canceled -= instance.OnDoubleClick;
-            @Press.started -= instance.OnPress;
-            @Press.performed -= instance.OnPress;
-            @Press.canceled -= instance.OnPress;
+            @PressBegin.started -= instance.OnPressBegin;
+            @PressBegin.performed -= instance.OnPressBegin;
+            @PressBegin.canceled -= instance.OnPressBegin;
+            @PressEnd.started -= instance.OnPressEnd;
+            @PressEnd.performed -= instance.OnPressEnd;
+            @PressEnd.canceled -= instance.OnPressEnd;
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
@@ -1630,7 +1659,8 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
     public interface IDungeon_CameraActions
     {
         void OnDoubleClick(InputAction.CallbackContext context);
-        void OnPress(InputAction.CallbackContext context);
+        void OnPressBegin(InputAction.CallbackContext context);
+        void OnPressEnd(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
         void OnPan(InputAction.CallbackContext context);
     }

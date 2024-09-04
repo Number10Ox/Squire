@@ -30,7 +30,6 @@ public class PlaneCameraController : MonoBehaviour
     public Camera MainCamera { get; private set; }
     public Transform TrackTransform { get; set; }
 
-    private CinemachineBrain brain;
     private CinemachinePositionComposer positionComposer;
     private float current;
     private Vector3 startingPosition;
@@ -40,6 +39,7 @@ public class PlaneCameraController : MonoBehaviour
     private bool useDolly;
     private float currentZoom;
     private LTDescr zoomTween;
+    private bool pressing;
 
     [SerializeField]
     private ZoomBounds zoom;
@@ -48,7 +48,6 @@ public class PlaneCameraController : MonoBehaviour
     void Awake()
     {
         MainCamera = Camera.main;
-        brain = MainCamera.GetComponent<CinemachineBrain>();
         startingPosition = CameraLookAtPosition;
         positionComposer = userControlledCamera.GetComponent<CinemachinePositionComposer>();
 
@@ -98,23 +97,33 @@ public class PlaneCameraController : MonoBehaviour
     public void OnPan(InputAction.CallbackContext context)
     {
         // Handle panning logic
-        Vector2 delta = context.ReadValue<Vector2>();
-        Vector3 startPoint = ScreenPointToGround(delta - delta);
-        Vector3 endPoint = ScreenPointToGround(delta);
-        Vector3 panAmount = startPoint - endPoint;
-        PanTo(CameraLookAtPosition + panAmount);
+        if (pressing)
+        {
+            Vector2 delta = context.ReadValue<Vector2>();
+            Vector3 startPoint = ScreenPointToGround(delta - delta);
+            Vector3 endPoint = ScreenPointToGround(delta);
+            Vector3 panAmount = startPoint - endPoint;
+            PanTo(CameraLookAtPosition + panAmount);
+        }
     }
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        // Handle scrolling
-        float delta = context.ReadValue<float>();
+        Vector2 scrollDelta = context.ReadValue<Vector2>();
+        float delta = scrollDelta.y;
         SetZoom(currentZoom - delta);
     }
 
-    public void OnPress(InputAction.CallbackContext context)
+    public void OnPressBegin(InputAction.CallbackContext context)
     {
-        // Handle pressing action
+        pressing = true;
+        Debug.Log("Press Begin");
+    }
+    
+    public void OnPressEnd(InputAction.CallbackContext context)
+    {
+        pressing = false;
+        Debug.Log("Press End");
     }
 
     public void OnDoubleTap(InputAction.CallbackContext context)
