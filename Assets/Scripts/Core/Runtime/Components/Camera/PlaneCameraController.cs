@@ -108,9 +108,9 @@ public class PlaneCameraController : MonoBehaviour
             Vector3 endPoint = ScreenPointToGround(pointerPosition);
             Vector3 panAmount = startPoint - endPoint;
 
-            Debug.LogFormat("OnPan: delta: ({0}, {1}) pointerPos: ({2}, {3}, panAmount: {4}", delta.x, delta.y,
-                pointerPosition.x,
-                pointerPosition.y, panAmount);
+            // Debug.LogFormat("OnPan: delta: ({0}, {1}) pointerPos: ({2}, {3}, panAmount: {4}", delta.x, delta.y,
+            //    pointerPosition.x,
+            //    pointerPosition.y, panAmount);
 
             PanTo(CameraLookAtPosition + panAmount);
         }
