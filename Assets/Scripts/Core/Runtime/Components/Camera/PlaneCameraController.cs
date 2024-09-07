@@ -98,13 +98,12 @@ public class PlaneCameraController : MonoBehaviour
 
     #region Interface for Game-specific InputHandler
 
-    public void OnPan(InputAction.CallbackContext context)
+    public void OnPan(Vector2 panValue)
     {
         // Handle panning logic
         if (pressing)
         {
-            Vector2 delta = context.ReadValue<Vector2>();
-            Vector3 startPoint = ScreenPointToGround(pointerPosition - delta);
+            Vector3 startPoint = ScreenPointToGround(pointerPosition - panValue);
             Vector3 endPoint = ScreenPointToGround(pointerPosition);
             Vector3 panAmount = startPoint - endPoint;
 
@@ -116,38 +115,33 @@ public class PlaneCameraController : MonoBehaviour
         }
     }
 
-    public void OnScroll(InputAction.CallbackContext context)
+    public void OnScroll(Vector2 scrollValue)
     {
-        Vector2 scrollDelta = context.ReadValue<Vector2>();
-        float delta = scrollDelta.y;
+        float delta = scrollValue.y;
         SetZoom(currentZoom - delta);
     }
 
-    public void OnPressBegin(InputAction.CallbackContext context)
+    public void OnPressBegin()
     {
         pressing = true;
     }
 
-    public void OnPressEnd(InputAction.CallbackContext context)
+    public void OnPressEnd()
     {
         pressing = false;
     }
 
-    public void OnDoubleTap(InputAction.CallbackContext context)
+    public void OnDoubleTap()
     {
-        // Handle double tap logic
         if (resetOnDoubleTap)
         {
             PanTo(startingPosition, zoom.StartingValue);
         }
     }
 
-    public void OnPointerPosition(InputAction.CallbackContext context)
+    public void OnPointerPosition(Vector2 pointerPosition)
     {
-        if (context.performed)
-        {
-            pointerPosition = context.ReadValue<Vector2>();
-        }
+        this.pointerPosition = pointerPosition;
     }
 
     #endregion
