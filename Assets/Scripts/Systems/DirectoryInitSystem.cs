@@ -27,6 +27,7 @@ public partial struct DirectoryInitSystem : ISystem
 
         var directoryManaged = new DirectoryManaged();
         directoryManaged.SquireSpawnPoint = directory.SquireSpawnPoint;
+        directoryManaged.SquireTrackingTransform = directory.SquireTrackingTransform;
 
         var entity = state.EntityManager.CreateEntity();
         state.EntityManager.AddComponentData(entity, directoryManaged);
@@ -36,6 +37,7 @@ public partial struct DirectoryInitSystem : ISystem
 public class DirectoryManaged : IComponentData
 {
     public GameObject SquireSpawnPoint;
+    public GameObject SquireTrackingTransform;
 
     // Every IComponentData class must have a no-arg constructor.
     public DirectoryManaged()
