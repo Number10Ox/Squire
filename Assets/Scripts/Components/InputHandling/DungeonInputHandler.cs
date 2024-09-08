@@ -12,21 +12,6 @@ public class DungeonInputHandler : MonoBehaviour
         controller.OnPan(panInput);
     }
 
-    public void OnDoubleClick()
-    {
-        controller.OnDoubleTap();
-    }
-
-    public void OnPressBegin()
-    {
-        controller.OnPressBegin();
-    }
-
-    public void OnPressEnd()
-    {
-        controller.OnPressEnd();
-    }
-
     public void OnScroll(InputValue value)
     {
         Vector2 scrollInput = value.Get<Vector2>();

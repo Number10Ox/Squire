@@ -1798,7 +1798,7 @@ GameObject:
   - component: {fileID: 1826977232}
   - component: {fileID: 1826977233}
   m_Layer: 0
-  m_Name: CameraInputHander
+  m_Name: DungeonInputHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

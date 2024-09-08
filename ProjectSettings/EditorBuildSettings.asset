@@ -9,5 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/DungeonWorld.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: f42f17e628bfe4b008f28c03a6c3d89c, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8bbb648254d8443c79e6104d20612cec, type: 3}
   m_UseUCBPForAssetBundles: 0
