@@ -11,7 +11,7 @@
                     "id": "5d874e27-3e2c-4a79-8b37-b0fd544a95fe",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
@@ -81,10 +81,19 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "79c76c0b-d516-48e9-b13c-8d77577258d8",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "12a97516-3c38-4b62-a3a8-eacf18358cd6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -470,6 +479,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89d5eb19-05ba-4e67-a00a-07de5be25d11",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -986,134 +1006,6 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Dungeon_Camera",
-            "id": "8f01489b-f25d-426d-8f0e-755fbc3617d3",
-            "actions": [
-                {
-                    "name": "DoubleClick",
-                    "type": "Button",
-                    "id": "25a2237a-e8f4-43da-9b88-73c56efde2e9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "MultiTap",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Press Begin",
-                    "type": "Button",
-                    "id": "6d64a03d-2189-43f0-a369-f4c9bc8be746",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Press End",
-                    "type": "Button",
-                    "id": "4827b060-3374-4f1a-a3f4-dea828282de7",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press(behavior=1)",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Scroll",
-                    "type": "Value",
-                    "id": "5c0158fd-244c-4b70-9980-63408c41bc41",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Pan",
-                    "type": "Value",
-                    "id": "09b34290-99be-440b-bfd1-cf2fa30cb41f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "PointerPosition",
-                    "type": "Value",
-                    "id": "5dd6862d-faf3-4eb8-9d6e-41560635e169",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "90fc3313-f4e9-4ada-83b9-485e5ceab56a",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DoubleClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0d96b802-fd3e-43f7-9789-e505d1bc1858",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Press Begin",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3c87a128-bdaf-4051-9a4d-826bc2392312",
-                    "path": "<Mouse>/scroll",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Scroll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1b19cf7a-d695-4af2-8948-9f8717275cc1",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pan",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e5b71245-6445-472c-93a9-c845aab5cdc2",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Press End",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "371efb56-810f-4dbd-a85e-75acaff8de99",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PointerPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

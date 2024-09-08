@@ -34,7 +34,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""5d874e27-3e2c-4a79-8b37-b0fd544a95fe"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -104,10 +104,19 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""79c76c0b-d516-48e9-b13c-8d77577258d8"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""12a97516-3c38-4b62-a3a8-eacf18358cd6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -493,6 +502,17 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89d5eb19-05ba-4e67-a00a-07de5be25d11"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1013,134 +1033,6 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Dungeon_Camera"",
-            ""id"": ""8f01489b-f25d-426d-8f0e-755fbc3617d3"",
-            ""actions"": [
-                {
-                    ""name"": ""DoubleClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""25a2237a-e8f4-43da-9b88-73c56efde2e9"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""MultiTap"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Press Begin"",
-                    ""type"": ""Button"",
-                    ""id"": ""6d64a03d-2189-43f0-a369-f4c9bc8be746"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Press End"",
-                    ""type"": ""Button"",
-                    ""id"": ""4827b060-3374-4f1a-a3f4-dea828282de7"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Scroll"",
-                    ""type"": ""Value"",
-                    ""id"": ""5c0158fd-244c-4b70-9980-63408c41bc41"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Pan"",
-                    ""type"": ""Value"",
-                    ""id"": ""09b34290-99be-440b-bfd1-cf2fa30cb41f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""PointerPosition"",
-                    ""type"": ""Value"",
-                    ""id"": ""5dd6862d-faf3-4eb8-9d6e-41560635e169"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""90fc3313-f4e9-4ada-83b9-485e5ceab56a"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DoubleClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0d96b802-fd3e-43f7-9789-e505d1bc1858"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Press Begin"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3c87a128-bdaf-4051-9a4d-826bc2392312"",
-                    ""path"": ""<Mouse>/scroll"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1b19cf7a-d695-4af2-8948-9f8717275cc1"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pan"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e5b71245-6445-472c-93a9-c845aab5cdc2"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Press End"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""371efb56-810f-4dbd-a85e-75acaff8de99"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PointerPosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -1217,6 +1109,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1229,21 +1122,12 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        // Dungeon_Camera
-        m_Dungeon_Camera = asset.FindActionMap("Dungeon_Camera", throwIfNotFound: true);
-        m_Dungeon_Camera_DoubleClick = m_Dungeon_Camera.FindAction("DoubleClick", throwIfNotFound: true);
-        m_Dungeon_Camera_PressBegin = m_Dungeon_Camera.FindAction("Press Begin", throwIfNotFound: true);
-        m_Dungeon_Camera_PressEnd = m_Dungeon_Camera.FindAction("Press End", throwIfNotFound: true);
-        m_Dungeon_Camera_Scroll = m_Dungeon_Camera.FindAction("Scroll", throwIfNotFound: true);
-        m_Dungeon_Camera_Pan = m_Dungeon_Camera.FindAction("Pan", throwIfNotFound: true);
-        m_Dungeon_Camera_PointerPosition = m_Dungeon_Camera.FindAction("PointerPosition", throwIfNotFound: true);
     }
 
     ~@Dungeon_InputActions()
     {
         Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.Player.Disable() has not been called.");
         Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.UI.Disable() has not been called.");
-        Debug.Assert(!m_Dungeon_Camera.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.Dungeon_Camera.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1314,6 +1198,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Previous;
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_Scroll;
     public struct PlayerActions
     {
         private @Dungeon_InputActions m_Wrapper;
@@ -1327,6 +1212,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         public InputAction @Previous => m_Wrapper.m_Player_Previous;
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1363,6 +1249,9 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1394,6 +1283,9 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1529,92 +1421,6 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
-
-    // Dungeon_Camera
-    private readonly InputActionMap m_Dungeon_Camera;
-    private List<IDungeon_CameraActions> m_Dungeon_CameraActionsCallbackInterfaces = new List<IDungeon_CameraActions>();
-    private readonly InputAction m_Dungeon_Camera_DoubleClick;
-    private readonly InputAction m_Dungeon_Camera_PressBegin;
-    private readonly InputAction m_Dungeon_Camera_PressEnd;
-    private readonly InputAction m_Dungeon_Camera_Scroll;
-    private readonly InputAction m_Dungeon_Camera_Pan;
-    private readonly InputAction m_Dungeon_Camera_PointerPosition;
-    public struct Dungeon_CameraActions
-    {
-        private @Dungeon_InputActions m_Wrapper;
-        public Dungeon_CameraActions(@Dungeon_InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @DoubleClick => m_Wrapper.m_Dungeon_Camera_DoubleClick;
-        public InputAction @PressBegin => m_Wrapper.m_Dungeon_Camera_PressBegin;
-        public InputAction @PressEnd => m_Wrapper.m_Dungeon_Camera_PressEnd;
-        public InputAction @Scroll => m_Wrapper.m_Dungeon_Camera_Scroll;
-        public InputAction @Pan => m_Wrapper.m_Dungeon_Camera_Pan;
-        public InputAction @PointerPosition => m_Wrapper.m_Dungeon_Camera_PointerPosition;
-        public InputActionMap Get() { return m_Wrapper.m_Dungeon_Camera; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Dungeon_CameraActions set) { return set.Get(); }
-        public void AddCallbacks(IDungeon_CameraActions instance)
-        {
-            if (instance == null || m_Wrapper.m_Dungeon_CameraActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_Dungeon_CameraActionsCallbackInterfaces.Add(instance);
-            @DoubleClick.started += instance.OnDoubleClick;
-            @DoubleClick.performed += instance.OnDoubleClick;
-            @DoubleClick.canceled += instance.OnDoubleClick;
-            @PressBegin.started += instance.OnPressBegin;
-            @PressBegin.performed += instance.OnPressBegin;
-            @PressBegin.canceled += instance.OnPressBegin;
-            @PressEnd.started += instance.OnPressEnd;
-            @PressEnd.performed += instance.OnPressEnd;
-            @PressEnd.canceled += instance.OnPressEnd;
-            @Scroll.started += instance.OnScroll;
-            @Scroll.performed += instance.OnScroll;
-            @Scroll.canceled += instance.OnScroll;
-            @Pan.started += instance.OnPan;
-            @Pan.performed += instance.OnPan;
-            @Pan.canceled += instance.OnPan;
-            @PointerPosition.started += instance.OnPointerPosition;
-            @PointerPosition.performed += instance.OnPointerPosition;
-            @PointerPosition.canceled += instance.OnPointerPosition;
-        }
-
-        private void UnregisterCallbacks(IDungeon_CameraActions instance)
-        {
-            @DoubleClick.started -= instance.OnDoubleClick;
-            @DoubleClick.performed -= instance.OnDoubleClick;
-            @DoubleClick.canceled -= instance.OnDoubleClick;
-            @PressBegin.started -= instance.OnPressBegin;
-            @PressBegin.performed -= instance.OnPressBegin;
-            @PressBegin.canceled -= instance.OnPressBegin;
-            @PressEnd.started -= instance.OnPressEnd;
-            @PressEnd.performed -= instance.OnPressEnd;
-            @PressEnd.canceled -= instance.OnPressEnd;
-            @Scroll.started -= instance.OnScroll;
-            @Scroll.performed -= instance.OnScroll;
-            @Scroll.canceled -= instance.OnScroll;
-            @Pan.started -= instance.OnPan;
-            @Pan.performed -= instance.OnPan;
-            @Pan.canceled -= instance.OnPan;
-            @PointerPosition.started -= instance.OnPointerPosition;
-            @PointerPosition.performed -= instance.OnPointerPosition;
-            @PointerPosition.canceled -= instance.OnPointerPosition;
-        }
-
-        public void RemoveCallbacks(IDungeon_CameraActions instance)
-        {
-            if (m_Wrapper.m_Dungeon_CameraActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IDungeon_CameraActions instance)
-        {
-            foreach (var item in m_Wrapper.m_Dungeon_CameraActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_Dungeon_CameraActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public Dungeon_CameraActions @Dungeon_Camera => new Dungeon_CameraActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1671,6 +1477,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1684,14 +1491,5 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
-    }
-    public interface IDungeon_CameraActions
-    {
-        void OnDoubleClick(InputAction.CallbackContext context);
-        void OnPressBegin(InputAction.CallbackContext context);
-        void OnPressEnd(InputAction.CallbackContext context);
-        void OnScroll(InputAction.CallbackContext context);
-        void OnPan(InputAction.CallbackContext context);
-        void OnPointerPosition(InputAction.CallbackContext context);
     }
 }
