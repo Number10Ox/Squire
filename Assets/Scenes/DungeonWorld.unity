@@ -307,7 +307,6 @@ GameObject:
   - component: {fileID: 330585550}
   - component: {fileID: 330585549}
   - component: {fileID: 330585548}
-  - component: {fileID: 330585551}
   m_Layer: 0
   m_Name: DungeonCamera
   m_TagString: MainCamera
@@ -454,6 +453,7 @@ MonoBehaviour:
     useBounds: 1
     min: {x: -200, y: -200}
     max: {x: 500, y: 500}
+  TrackTransform: {fileID: 1688084152}
   zoom:
     nearestZoom: 50
     furthestZoom: 250
@@ -511,19 +511,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
---- !u!114 &330585551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b8945d37165a48a48c90ff3cec56977, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraController: {fileID: 330585548}
 --- !u!114 &353738604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +855,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 691851028}
+  - {fileID: 1688084152}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &725759997
@@ -1707,6 +1695,37 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 93035c786cd2a403e857b21f564d9a2e, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &1688084151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688084152}
+  m_Layer: 0
+  m_Name: SquireTrackingTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1688084152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688084151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 694716252}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1713796414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,6 +1756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SquireSpawnPoint: {fileID: 510306892}
+  SquireTrackingTransform: {fileID: 1688084151}
 --- !u!4 &1713796416
 Transform:
   m_ObjectHideFlags: 0

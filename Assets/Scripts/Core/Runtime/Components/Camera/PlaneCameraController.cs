@@ -28,8 +28,10 @@ public class PlaneCameraController : MonoBehaviour
     [SerializeField]
     private CameraBounds horizontalBounds;
 
+    [SerializeField]
+    private Transform TrackTransform;
+
     public Camera MainCamera { get; private set; }
-    public Transform TrackTransform { get; set; }
 
     private CinemachinePositionComposer positionComposer;
     private float current;
