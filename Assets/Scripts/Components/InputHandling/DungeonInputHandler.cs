@@ -1,3 +1,4 @@
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,30 +42,29 @@ public class DungeonInputHandler : MonoBehaviour
         {
             // If the ray hits something on the ground layer, teleport the Squire
             Vector3 clickPosition = hitInfo.point;
-            Debug.LogFormat("HIT! Raycast clickPosition: {0}, {1}, {2}", clickPosition.x, clickPosition.y, clickPosition.z);
-            // TeleportSquire(clickPosition);
-        }
-        else
-        {
-            Debug.Log("No raycast hit."); 
+            RequestSquireMove(clickPosition);
+            
+            // Debug.LogFormat("HIT! Raycast clickPosition: {0}, {1}, {2}", clickPosition.x, clickPosition.y, clickPosition.z);
         }
     }
 
-    public Vector3 ScreenPointToGround(Vector2 screenPoint)
+    public void RequestSquireMove(Vector3 targetPosition)
     {
-        Ray ray = mainCamera.ScreenPointToRay(screenPoint);
-        Vector3 planePoint = Vector3.zero;
-        float distance;
+        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-        Plane groundPlane = new Plane(Vector3.up, new Vector3(0.0f, 0.0f, 0.0f));
-        if (groundPlane.Raycast(ray, out distance))
+        // Get the singleton entity that holds the buffer
+        var singletonEntity = entityManager.CreateEntityQuery(typeof(MoveRequestBufferElement)).GetSingletonEntity();
+
+        // Get the dynamic buffer from the singleton entity
+        var moveRequestBuffer = entityManager.GetBuffer<MoveRequestBufferElement>(singletonEntity);
+
+        // Add the movement request to the buffer
+        moveRequestBuffer.Add(new MoveRequestBufferElement
         {
-            planePoint = ray.GetPoint(distance);
-        }
-
-        return planePoint;
+            TargetPosition = targetPosition
+        }); 
     }
-    
+        
     public void OnPointerPosition(InputValue value)
     {
         pointerPosition = value.Get<Vector2>();
