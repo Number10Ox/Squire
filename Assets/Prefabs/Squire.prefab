@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MotionType: 3
-  Speed: 3.5
+  Speed: 8
   Acceleration: 8
-  AngularSpeed: 120
+  AngularSpeed: 360
   StoppingDistance: 0.1
   AutoBreaking: 1
   m_Layers: 1
@@ -84,11 +84,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AgentTypeId: 0
-  AreaMask: -1
+  AreaMask: 9
   AutoRepath: 1
-  m_Grounded: 1
+  m_Grounded: 0
   m_OverrideAreaCosts: 0
-  m_LinkTraversalMode: 0
+  m_LinkTraversalMode: 1
   MappingExtent:
     x: 10
     y: 10
@@ -173,8 +173,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4383173911866088903, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3069401407788292327}
   m_SourcePrefab: {fileID: 100100000, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+--- !u!1 &7361841388823975277 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4383173911866088903, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+  m_PrefabInstance: {fileID: 6556865909977680042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3069401407788292327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361841388823975277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd3797e7a08468dbec4150987b162b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8482864615803481214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3406861666567382228, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}

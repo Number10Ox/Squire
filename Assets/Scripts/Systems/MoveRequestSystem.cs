@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [UpdateAfter(typeof(MoveRequestInitSystem))]
+[BurstCompile]
 public partial class ProcessMoveRequestsSystem : SystemBase
 {
     [BurstCompile]
@@ -16,10 +17,11 @@ public partial class ProcessMoveRequestsSystem : SystemBase
         state.RequireForUpdate<SquireTag>();
     }
     
+    [BurstCompile]
     protected override void OnUpdate()
     {
         // Get the singleton entity containing the dynamic buffer
-        var singletonEntity = GetSingletonEntity<MoveRequestBufferElement>();
+        var singletonEntity = SystemAPI.GetSingletonEntity<MoveRequestBufferElement>();
 
         var moveRequestBuffer = EntityManager.GetBuffer<MoveRequestBufferElement>(singletonEntity);
 
