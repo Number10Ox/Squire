@@ -8,6 +8,7 @@ public struct MoveRequestBufferElement : IBufferElementData
     public float3 TargetPosition;
 }
 
+[BurstCompile]
 public partial class MoveRequestInitSystem : SystemBase
 {
     [BurstCompile]
