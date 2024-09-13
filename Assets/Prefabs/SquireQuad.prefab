@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3406861666567382228}
   - component: {fileID: 3974109199489043396}
   - component: {fileID: 5559984190376036124}
-  - component: {fileID: 4718589978673912149}
+  - component: {fileID: 5154188340274423280}
   m_Layer: 0
   m_Name: SquireQuad
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4718589978673912149
-MeshCollider:
+--- !u!136 &5154188340274423280
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +105,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Radius: 5
+  m_Height: 1.0000002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
