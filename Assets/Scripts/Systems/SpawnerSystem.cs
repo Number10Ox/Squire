@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
 
+[UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct SpawnSystem : ISystem
 {
     [BurstCompile]
