@@ -1053,6 +1053,74 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Dungeon"",
+            ""id"": ""d10ec8c4-93cb-4d07-9f90-26e507e7da45"",
+            ""actions"": [
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3a87341-1de3-4821-bf92-4ae932d95436"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PointerPosition"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d6d9c74-aed1-4a27-99ee-2e223a9080a5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""2ade7fee-3943-49a8-962c-29f370498324"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4192c139-4d45-476e-892f-f108aed79080"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc2e5725-01f2-40e6-8870-6d2b6f0ffe2f"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""PointerPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e65ed1c7-c4e6-478e-807c-2600c22e4c81"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1143,12 +1211,18 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Dungeon
+        m_Dungeon = asset.FindActionMap("Dungeon", throwIfNotFound: true);
+        m_Dungeon_Interact = m_Dungeon.FindAction("Interact", throwIfNotFound: true);
+        m_Dungeon_PointerPosition = m_Dungeon.FindAction("PointerPosition", throwIfNotFound: true);
+        m_Dungeon_Scroll = m_Dungeon.FindAction("Scroll", throwIfNotFound: true);
     }
 
     ~@Dungeon_InputActions()
     {
         Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.Player.Disable() has not been called.");
         Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.UI.Disable() has not been called.");
+        Debug.Assert(!m_Dungeon.enabled, "This will cause a leak and performance issues, Dungeon_InputActions.Dungeon.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1435,7 +1509,7 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
         }
 
-        public void RemoveCallbacks(IUIActions instance)
+        public void RemoveCallnbacks(IUIActions instance)
         {
             if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
@@ -1450,6 +1524,68 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Dungeon
+    private readonly InputActionMap m_Dungeon;
+    private List<IDungeonActions> m_DungeonActionsCallbackInterfaces = new List<IDungeonActions>();
+    private readonly InputAction m_Dungeon_Interact;
+    private readonly InputAction m_Dungeon_PointerPosition;
+    private readonly InputAction m_Dungeon_Scroll;
+    public struct DungeonActions
+    {
+        private @Dungeon_InputActions m_Wrapper;
+        public DungeonActions(@Dungeon_InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interact => m_Wrapper.m_Dungeon_Interact;
+        public InputAction @PointerPosition => m_Wrapper.m_Dungeon_PointerPosition;
+        public InputAction @Scroll => m_Wrapper.m_Dungeon_Scroll;
+        public InputActionMap Get() { return m_Wrapper.m_Dungeon; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DungeonActions set) { return set.Get(); }
+        public void AddCallbacks(IDungeonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DungeonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DungeonActionsCallbackInterfaces.Add(instance);
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @PointerPosition.started += instance.OnPointerPosition;
+            @PointerPosition.performed += instance.OnPointerPosition;
+            @PointerPosition.canceled += instance.OnPointerPosition;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
+        }
+
+        private void UnregisterCallbacks(IDungeonActions instance)
+        {
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @PointerPosition.started -= instance.OnPointerPosition;
+            @PointerPosition.performed -= instance.OnPointerPosition;
+            @PointerPosition.canceled -= instance.OnPointerPosition;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
+        }
+
+        public void RemoveCallbacks(IDungeonActions instance)
+        {
+            if (m_Wrapper.m_DungeonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDungeonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DungeonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DungeonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DungeonActions @Dungeon => new DungeonActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1521,5 +1657,11 @@ public partial class @Dungeon_InputActions: IInputActionCollection2, IDisposable
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IDungeonActions
+    {
+        void OnInteract(InputAction.CallbackContext context);
+        void OnPointerPosition(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
 }
