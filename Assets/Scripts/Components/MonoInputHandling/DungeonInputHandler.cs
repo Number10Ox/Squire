@@ -15,8 +15,8 @@ public class DungeonInputHandler : MonoBehaviour
     
     public void OnScroll(InputValue value)
     {
-        Vector2 scrollInput = value.Get<Vector2>();
-        controller.OnScroll(scrollInput);
+        // Vector2 scrollInput = value.Get<Vector2>();
+        // controller.OnScroll(scrollInput);
     }
     
     public GameObject markerPrefab;  // Assign a sphere or cube prefab in the inspector
