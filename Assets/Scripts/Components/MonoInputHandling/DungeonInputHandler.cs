@@ -34,6 +34,7 @@ public class DungeonInputHandler : MonoBehaviour
         // Debug.LogFormat("pointerPosition: {0}, {1}", pointerPosition.x, pointerPosition.y);
         // Debug.LogFormat("Ground clickPosition: {0}, {1}, {2}", groundClickPosition.x, groundClickPosition.y, groundClickPosition.z);
         
+        /*
         Ray ray = mainCamera.ScreenPointToRay(pointerPosition);
         // Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2f); // Draw the ray for 2 se
         
@@ -46,6 +47,7 @@ public class DungeonInputHandler : MonoBehaviour
             
             // Debug.LogFormat("HIT! Raycast clickPosition: {0}, {1}, {2}", clickPosition.x, clickPosition.y, clickPosition.z);
         }
+        */
     }
 
     public void RequestSquireMove(Vector3 targetPosition)
