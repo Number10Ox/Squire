@@ -177,6 +177,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4273588836625413644, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+      propertyPath: m_Material.m_BelongsToCategories.m_Value.Category00
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273588836625413644, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+      propertyPath: m_Material.m_BelongsToCategories.m_Value.Category02
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273588836625413644, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+      propertyPath: m_Material.m_BelongsToCategories.m_Value.Category13
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4383173911866088903, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
       propertyPath: m_Name
       value: SquireQuad
@@ -196,6 +208,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4383173911866088903, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3069401407788292327}
+    - targetCorrespondingSourceObject: {fileID: 4383173911866088903, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2973823840420057721}
   m_SourcePrefab: {fileID: 100100000, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
 --- !u!1 &7361841388823975277 stripped
 GameObject:
@@ -214,6 +229,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd3797e7a08468dbec4150987b162b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2973823840420057721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361841388823975277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MotionType: 0
+  m_Smoothing: 0
+  m_Mass: 1
+  m_LinearDamping: 0.01
+  m_AngularDamping: 0.05
+  m_InitialLinearVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_InitialAngularVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_GravityFactor: 1
+  m_OverrideDefaultMassDistribution: 0
+  m_CenterOfMass:
+    x: 0
+    y: 0
+    z: 0
+  m_Orientation:
+    Value:
+      x: 0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_InertiaTensor:
+    x: 0.4
+    y: 0.4
+    z: 0.4
+  m_WorldIndex: 0
+  m_CustomTags:
+    Tag00: 0
+    Tag01: 0
+    Tag02: 0
+    Tag03: 0
+    Tag04: 0
+    Tag05: 0
+    Tag06: 0
+    Tag07: 0
 --- !u!4 &8482864615803481214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3406861666567382228, guid: e32da22b8180141f9b32be5d6e73994b, type: 3}
