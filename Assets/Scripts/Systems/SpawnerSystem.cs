@@ -2,6 +2,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
+using UnityEngine;
 
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct SpawnSystem : ISystem
@@ -11,8 +12,8 @@ public partial struct SpawnSystem : ISystem
     {
         // This call makes the system not update unless at least one entity in the world exists that has the Spawner component.
         state.RequireForUpdate<Spawner>();
-        state.RequireForUpdate<DirectoryManaged>();
         state.RequireForUpdate<ExecuteDungeonSync>();
+        state.RequireForUpdate<SquireSpawnPointTag>();
     }
 
     public void OnUpdate(ref SystemState state)
@@ -26,17 +27,19 @@ public partial struct SpawnSystem : ISystem
         {
             var prefab = SystemAPI.GetSingleton<Spawner>().Prefab;
 
+        
             // Instantiating an entity creates copy entities with the same component types and values.
             var instances = state.EntityManager.Instantiate(prefab, 1, Allocator.Temp);
-
-            var directory = SystemAPI.ManagedAPI.GetSingleton<DirectoryManaged>();
-            var position = directory.SquireSpawnPoint.transform.position;
+            
+            var squireSpawnPointEntity = SystemAPI.GetSingletonEntity<SquireSpawnPointTag>();
+            SpawnPoint spawnPoint = SystemAPI.GetComponent<SpawnPoint>(squireSpawnPointEntity);
 
             foreach (var entity in instances)
             {
                 // Position the squire
                 var transform = SystemAPI.GetComponentRW<LocalTransform>(entity);
-                transform.ValueRW.Position = position;
+                transform.ValueRW.Position = spawnPoint.Position;
+                Debug.LogFormat("Spawning squire at {0}", spawnPoint.Position);
             }
         }
     }
