@@ -16,6 +16,7 @@ public partial class PlayerInputSystem : SystemBase
     protected override void OnCreate()
     {
         RequireForUpdate<PlayerTag>();
+        RequireForUpdate<DirectoryManaged>();
 
         squireInputActions = new SquireInputActions();
     }
@@ -57,11 +58,17 @@ public partial class PlayerInputSystem : SystemBase
         var cameraController = directory.DungeonCameraController;
         var ray = cameraController.GetComponent<Camera>().ScreenPointToRay(pointerPosition);
         var rayStart = ray.origin;
-        var rayEnd = ray.GetPoint(100f);
+        var rayEnd = ray.GetPoint(1000f);
+
+        // Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2f); // Draw the ray for 2 se
 
         if (Raycast(rayStart, rayEnd, out var raycastHit))
         {
             Debug.Log("Raycast hit!");
+        }
+        else
+        {
+            Debug.Log("Raycast miss!");
         }
     }
     

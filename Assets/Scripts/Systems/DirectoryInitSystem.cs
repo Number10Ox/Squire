@@ -26,7 +26,6 @@ public partial struct DirectoryInitSystem : ISystem
         var directory = go.GetComponent<DungeonGameObjectDirectory>();
 
         var directoryManaged = new DirectoryManaged();
-        directoryManaged.SquireSpawnPoint = directory.SquireSpawnPoint;
         directoryManaged.SquireTrackingTransform = directory.SquireTrackingTransform;
         directoryManaged.DungeonCameraController = directory.DungeonCameraController;
 
@@ -37,7 +36,6 @@ public partial struct DirectoryInitSystem : ISystem
 
 public class DirectoryManaged : IComponentData
 {
-    public GameObject SquireSpawnPoint;
     public GameObject SquireTrackingTransform;
     public GameObject DungeonCameraController;
 
