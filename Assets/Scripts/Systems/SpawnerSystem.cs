@@ -26,7 +26,6 @@ public partial struct SpawnSystem : ISystem
         if (squireQuery.IsEmpty)
         {
             var prefab = SystemAPI.GetSingleton<Spawner>().Prefab;
-
         
             // Instantiating an entity creates copy entities with the same component types and values.
             var instances = state.EntityManager.Instantiate(prefab, 1, Allocator.Temp);
