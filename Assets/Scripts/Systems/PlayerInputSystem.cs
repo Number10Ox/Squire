@@ -64,7 +64,7 @@ public partial class PlayerInputSystem : SystemBase
 
         if (Raycast(rayStart, rayEnd, out var raycastHit))
         {
-            // Debug.Log("Raycast hit!");
+            Debug.LogFormat("Raycast hit! Position: {0}, Entity{1}", raycastHit.Position, raycastHit.Entity);
             RequestSquireMove(raycastHit.Position); 
         }
     }

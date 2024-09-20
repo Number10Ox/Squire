@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerAuthoring : MonoBehaviour
@@ -9,6 +10,11 @@ public class PlayerAuthoring : MonoBehaviour
         {
             var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent<PlayerTag>(playerEntity);
+            AddComponent(playerEntity, new Target()
+            {
+                targetPosition = float3.zero,
+                targetEntity = Entity.Null
+            });
         }
     }
 }
