@@ -2,8 +2,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public struct Target : IComponentData
+public struct TargetEntity : IComponentData, IEnableableComponent
 {
-    public float3 targetPosition;
     public Entity targetEntity;
 }

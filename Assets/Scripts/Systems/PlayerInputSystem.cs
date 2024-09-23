@@ -65,10 +65,26 @@ public partial class PlayerInputSystem : SystemBase
         if (Raycast(rayStart, rayEnd, out var raycastHit))
         {
             Debug.LogFormat("Raycast hit! Position: {0}, Entity{1}", raycastHit.Position, raycastHit.Entity);
-            RequestSquireMove(raycastHit.Position); 
+            
+            if (raycastHit.Entity != Entity.Null)
+            {
+                var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
+                SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
+                var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
+                targetEntityComponent.targetEntity = raycastHit.Entity;
+            }
+            else
+            {
+                var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
+                SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
+                var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
+                targetPositionComponent.targetPosition = raycastHit.Position;
+            }
+            
         }
     }
     
+    // TODONOW
     public void RequestSquireMove(float3 targetPosition)
     {
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
