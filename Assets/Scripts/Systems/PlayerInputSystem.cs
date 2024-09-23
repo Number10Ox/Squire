@@ -65,23 +65,37 @@ public partial class PlayerInputSystem : SystemBase
         if (Raycast(rayStart, rayEnd, out var raycastHit))
         {
             Debug.LogFormat("Raycast hit! Position: {0}, Entity{1}", raycastHit.Position, raycastHit.Entity);
-            
-            if (raycastHit.Entity != Entity.Null)
+
+            bool raycastHitFloor = RaycastHitGround(raycastHit);
+            if (raycastHitFloor)
             {
-                var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
-                SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
-                var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
-                targetEntityComponent.targetEntity = raycastHit.Entity;
-            }
-            else
-            {
+                Debug.Log("Enabling TargetPosition on PlayerEntity!");
+                
                 var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
                 SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
                 var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
                 targetPositionComponent.targetPosition = raycastHit.Position;
             }
-            
+            else
+            {
+                Debug.LogFormat("Enabling TargetEntity on PlayerEntity! Entity: {0}", raycastHit.Entity);
+                
+                var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
+                SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
+                var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
+                targetEntityComponent.targetEntity = raycastHit.Entity;
+            }
         }
+    }
+
+    private bool RaycastHitGround(RaycastHit raycastHit)
+    {
+        if (raycastHit.Entity == Entity.Null)
+            return true;
+        
+        var collider = EntityManager.GetComponentData<PhysicsCollider>(raycastHit.Entity);
+        uint layer = collider.Value.Value.GetCollisionFilter().BelongsTo;
+        return layer == (uint)CollisionLayers.Ground;
     }
     
     // TODONOW
