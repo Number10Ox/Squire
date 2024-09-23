@@ -11,6 +11,7 @@ public class SquireAuthoring : MonoBehaviour
             var parent = GetEntity(TransformUsageFlags.Dynamic);
             // AddComponent(parent, new LocalToWorld());
             AddComponent(parent, new SquireTag());
+            AddComponent(parent, new AgentTag());
             // AddComponent(parent, new SquireChildrenCount { Value = authoring.transform.childCount });
 
             // foreach (Transform child in authoring.transform)

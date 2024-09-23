@@ -1,7 +1,6 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
-
 public class PlayerAuthoring : MonoBehaviour
 {
     public class PlayerBaker : Baker<PlayerAuthoring>
@@ -10,11 +9,17 @@ public class PlayerAuthoring : MonoBehaviour
         {
             var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent<PlayerTag>(playerEntity);
-            AddComponent(playerEntity, new Target()
+            AddComponent(playerEntity, new TargetPosition()
             {
                 targetPosition = float3.zero,
+            });
+            AddComponent(playerEntity, new TargetEntity()
+            {
                 targetEntity = Entity.Null
             });
+            
+            SetComponentEnabled<TargetPosition>(playerEntity, false);
+            SetComponentEnabled<TargetEntity>(playerEntity, false);
         }
     }
 }
