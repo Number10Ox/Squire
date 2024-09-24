@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using Unity.Physics;
 using RaycastHit = Unity.Physics.RaycastHit;
 
-[UpdateInGroup(typeof(InitializationSystemGroup), OrderLast = true)]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial class PlayerInputSystem : SystemBase
 {
     private SquireInputActions squireInputActions;
