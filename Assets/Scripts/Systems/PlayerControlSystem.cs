@@ -22,7 +22,9 @@ public partial struct PlayerControlSystem : ISystem
         {
             var targetPosition = SystemAPI.GetComponent<TargetPosition>(playerEntity);
             var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
-            var squirePendingActions = SystemAPI.GetComponent<PendingAgentActions>(squireEntity);
+            
+            //TODONOW
+            // var squirePendingActions = SystemAPI.GetComponent<PendingAgentActions>(squireEntity);
             
              Debug.LogFormat("PlayerControlSystem: found target position {0}", targetPosition.targetPosition);
 
