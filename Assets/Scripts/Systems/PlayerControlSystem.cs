@@ -1,11 +1,12 @@
 using Unity.Entities;
 using UnityEngine;
 
-[UpdateInGroup(typeof(SimulationSystemGroup))]
+[UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
 public partial struct PlayerControlSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
     {
+        state.RequireForUpdate<EndInitializationEntityCommandBufferSystem.Singleton>();
         state.RequireForUpdate<PlayerTag>();
         state.RequireForUpdate<SquireTag>();
     }
@@ -16,22 +17,30 @@ public partial struct PlayerControlSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        // Check for has TargetPosition component
         var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
-        if (SystemAPI.IsComponentEnabled<TargetPosition>(playerEntity))
-        {
-            var targetPosition = SystemAPI.GetComponent<TargetPosition>(playerEntity);
-            var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
-            
-            //TODONOW
-            // var squirePendingActions = SystemAPI.GetComponent<PendingAgentActions>(squireEntity);
-            
-             Debug.LogFormat("PlayerControlSystem: found target position {0}", targetPosition.targetPosition);
+        var targetPosition = SystemAPI.GetComponent<TargetPosition>(playerEntity);
+        var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
 
-            // TODONOW Create a MoveToPosition action entity and add it to action queue for squire
-            
-            state.EntityManager.SetComponentEnabled<TargetPosition>(playerEntity, false);
-            state.EntityManager.SetComponentEnabled<TargetEntity>(playerEntity, false);
-        }
+        var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
+            .CreateCommandBuffer(state.WorldUnmanaged);
+
+        // Create the action entity
+        var actionEntity = ecb.CreateEntity();
+        ecb.AddComponent(actionEntity, new AgentMoveToPositionAction
+        {
+            TargetPosition = targetPosition.targetPosition
+        });
+
+        // Add the action to the squire's pending actions buffer
+        ecb.AppendToBuffer(squireEntity, new AgentAction
+        {
+            ActionEntity = actionEntity,
+            Priority = 1,
+            CanInterrupt = true,
+            CanRunInParallel = false
+        });
+
+        // Disable the TargetPosition component
+        ecb.SetComponentEnabled<TargetPosition>(playerEntity, false);
     }
 }

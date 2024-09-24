@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public struct MoveToPositionAction : IComponentData
+public struct AgentMoveToPositionAction : IComponentData
 {
-    public float3 targetPosition; 
+    public float3 TargetPosition; 
 }
