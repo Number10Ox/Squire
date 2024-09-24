@@ -11,7 +11,8 @@ public struct ActionPriorityComparer : IComparer<AgentAction>
     }
 }
 
-public struct AgentAction : IComponentData
+[InternalBufferCapacity(8)]
+public struct AgentAction : IBufferElementData
 {
     public int Priority;
     public bool CanInterrupt;
