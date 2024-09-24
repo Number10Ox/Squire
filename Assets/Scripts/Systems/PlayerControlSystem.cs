@@ -18,9 +18,12 @@ public partial struct PlayerControlSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
+        if (!SystemAPI.IsComponentEnabled<TargetPosition>(playerEntity))
+            return;
+        
         var targetPosition = SystemAPI.GetComponent<TargetPosition>(playerEntity);
         var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
-
+        
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
@@ -31,6 +34,8 @@ public partial struct PlayerControlSystem : ISystem
             TargetPosition = targetPosition.targetPosition
         });
 
+        Debug.Log("Adding move action");
+        
         // Add the action to the squire's pending actions buffer
         ecb.AppendToBuffer(squireEntity, new AgentAction
         {

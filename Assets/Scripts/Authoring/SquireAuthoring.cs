@@ -11,7 +11,7 @@ public class SquireAuthoring : MonoBehaviour
             var parent = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(parent, new SquireTag());
             AddComponent(parent, new AgentTag());
-            AddBuffer<AgentAction>();
+            AddBuffer<AgentAction>(parent);
         }
     }
 }
