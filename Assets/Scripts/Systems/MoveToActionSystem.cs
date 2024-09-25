@@ -55,7 +55,7 @@ public partial struct MoveToActionSystem : ISystem
             switch (actionData.State)
             {
                 case AgentActionState.NotStarted:
-                    Debug.Log("STARTING: MoveTo");
+                    Debug.LogFormat("STARTING: MoveTo");
                     agentBody.SetDestination(moveToAction.TargetPosition);
                     actionData.State = AgentActionState.Running;
                     ecb.SetComponent(actionEntity, actionData);

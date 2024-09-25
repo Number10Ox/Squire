@@ -1,5 +1,3 @@
-
-
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -72,9 +70,14 @@ public partial class PlayerInputSystem : SystemBase
                 Debug.Log("Enabling TargetPosition on PlayerEntity!");
                 
                 var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
-                SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
                 var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
                 targetPositionComponent.targetPosition = raycastHit.Position;
+                SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
+                
+                SystemAPI.SetComponent(playerEntity, targetPositionComponent);
+                SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
+                
+                Debug.LogFormat("Setting targetPositionComponent {0}", targetPositionComponent.targetPosition);
             }
             else
             {

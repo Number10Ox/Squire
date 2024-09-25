@@ -1,4 +1,5 @@
 using Unity.Entities;
+using UnityEngine;
 
 [UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
 public partial struct PlayerControlSystem : ISystem
@@ -26,6 +27,7 @@ public partial struct PlayerControlSystem : ISystem
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
+        Debug.LogFormat("Creating MoveTo action to position {0}", targetPosition.targetPosition);
         // Create the action entity
         var actionEntity = ecb.CreateEntity();
         ecb.AddComponent(actionEntity, new AgentMoveToPositionAction
