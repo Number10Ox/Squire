@@ -55,13 +55,13 @@ public partial struct AgentActionSystem : ISystem
         for (int i = activeActions.Length - 1; i >= 0; i--)
         {
             var actionEntity = activeActions[i].ActionEntity;
-            var actionData = SystemAPI.GetComponent<AgentAction>(actionEntity);
+            var agentAction = SystemAPI.GetComponent<AgentAction>(actionEntity);
 
-            if (actionData.State == AgentActionState.Done)
+            if (agentAction.State == AgentActionState.Done)
             {
                 Debug.Log("Active action is DONE");
                 activeActions.RemoveAt(i);
-                activeTypes.Remove(actionData.Type);
+                activeTypes.Remove(agentAction.Type);
                 ecb.DestroyEntity(actionEntity);
             }
         }
