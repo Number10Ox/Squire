@@ -34,15 +34,18 @@ public partial struct PlayerControlSystem : ISystem
             TargetPosition = targetPosition.targetPosition
         });
 
-        Debug.Log("Adding move action");
-        
-        // Add the action to the squire's pending actions buffer
-        ecb.AppendToBuffer(squireEntity, new AgentAction
+        ecb.AddComponent(actionEntity, new AgentAction()
         {
-            ActionEntity = actionEntity,
             Priority = 1,
             CanInterrupt = true,
-            CanRunInParallel = false
+            CanRunInParallel = true,
+            State = AgentActionState.NotStarted,
+            HasBeenInterrupted = false
+        }); 
+        
+        ecb.AppendToBuffer(squireEntity, new PendingAgentAction()
+        {
+            ActionEntity = actionEntity
         });
 
         // Disable the TargetPosition component

@@ -11,11 +11,14 @@ public struct ActionPriorityComparer : IComparer<AgentAction>
     }
 }
 
+public enum AgentActionState { NotStarted, Running, Done }
+
 [InternalBufferCapacity(8)]
-public struct AgentAction : IBufferElementData
+public struct AgentAction : IComponentData
 {
-    public Entity ActionEntity;
     public int Priority;
     public bool CanInterrupt;
     public bool CanRunInParallel;
+    public AgentActionState State;
+    public bool HasBeenInterrupted;
 }
