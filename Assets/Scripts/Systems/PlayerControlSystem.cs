@@ -1,5 +1,4 @@
 using Unity.Entities;
-using UnityEngine;
 
 [UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
 public partial struct PlayerControlSystem : ISystem
@@ -36,11 +35,10 @@ public partial struct PlayerControlSystem : ISystem
 
         ecb.AddComponent(actionEntity, new AgentAction()
         {
+            Type = AgentActionType.MoveTo,
             Priority = 1,
-            CanInterrupt = true,
-            CanRunInParallel = true,
+            Interrupt = true,
             State = AgentActionState.NotStarted,
-            HasBeenInterrupted = false
         }); 
         
         ecb.AppendToBuffer(squireEntity, new PendingAgentAction()
