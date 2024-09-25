@@ -98,24 +98,6 @@ public partial class PlayerInputSystem : SystemBase
         return layer == (uint)CollisionLayers.Ground;
     }
     
-    // TODONOW
-    public void RequestSquireMove(float3 targetPosition)
-    {
-        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-
-        // Get the singleton entity that holds the buffer
-        var singletonEntity = entityManager.CreateEntityQuery(typeof(MoveRequestBufferElement)).GetSingletonEntity();
-
-        // Get the dynamic buffer from the singleton entity
-        var moveRequestBuffer = entityManager.GetBuffer<MoveRequestBufferElement>(singletonEntity);
-
-        // Add the movement request to the buffer
-        moveRequestBuffer.Add(new MoveRequestBufferElement
-        {
-            TargetPosition = targetPosition
-        }); 
-    }
-    
     private bool Raycast(float3 rayStart, float3 rayEnd, out RaycastHit raycastHit)
     {
         PhysicsWorldSingleton physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();

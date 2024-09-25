@@ -50,23 +50,6 @@ public class DungeonInputHandler : MonoBehaviour
         */
     }
 
-    public void RequestSquireMove(Vector3 targetPosition)
-    {
-        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-
-        // Get the singleton entity that holds the buffer
-        var singletonEntity = entityManager.CreateEntityQuery(typeof(MoveRequestBufferElement)).GetSingletonEntity();
-
-        // Get the dynamic buffer from the singleton entity
-        var moveRequestBuffer = entityManager.GetBuffer<MoveRequestBufferElement>(singletonEntity);
-
-        // Add the movement request to the buffer
-        moveRequestBuffer.Add(new MoveRequestBufferElement
-        {
-            TargetPosition = targetPosition
-        }); 
-    }
-        
     public void OnPointerPosition(InputValue value)
     {
         pointerPosition = value.Get<Vector2>();
