@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Transforms;
 using UnityEngine;
 
 public class SquireAuthoring : MonoBehaviour
@@ -8,10 +7,12 @@ public class SquireAuthoring : MonoBehaviour
     {
         public override void Bake(SquireAuthoring authoring)
         {
-            var parent = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(parent, new SquireTag());
-            AddComponent(parent, new AgentTag());
-            AddBuffer<AgentAction>(parent);
+            var entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new SquireTag());
+            AddComponent(entity, new AgentTag());
+            AddBuffer<PendingAgentAction>(entity);
+            AddBuffer<ActiveAgentAction>(entity);
+            AddComponent(entity, new ActiveAgentActionTypes());
         }
     }
 }
