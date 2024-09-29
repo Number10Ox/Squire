@@ -43,7 +43,7 @@ public partial struct PlayerControlSystem : ISystem
             State = AgentActionState.NotStarted,
         }); 
         
-        ecb.AppendToBuffer(squireEntity, new PendingAgentAction()
+        ecb.AppendToBuffer(squireEntity, new AgentPendingAction()
         {
             ActionEntity = actionEntity
         });

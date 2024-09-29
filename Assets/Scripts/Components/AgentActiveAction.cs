@@ -2,7 +2,7 @@
 using Unity.Entities;
 
 [InternalBufferCapacity(4)]
-public struct ActiveAgentAction : IBufferElementData
+public struct AgentActiveAction : IBufferElementData
 {
     public Entity ActionEntity;
 }
