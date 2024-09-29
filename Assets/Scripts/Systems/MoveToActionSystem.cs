@@ -21,7 +21,7 @@ public partial struct MoveToActionSystem : ISystem
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
         foreach (var (activeActions, agentBody, activeTypes, entity) in 
-            SystemAPI.Query<DynamicBuffer<ActiveAgentAction>, RefRW<AgentBody>, RefRO<ActiveAgentActionTypes>>()
+            SystemAPI.Query<DynamicBuffer<AgentActiveAction>, RefRW<AgentBody>, RefRO<AgentActiveActionTypes>>()
                 .WithAll<AgentTag>()
                 .WithEntityAccess())
         {
@@ -37,7 +37,7 @@ public partial struct MoveToActionSystem : ISystem
     }
 
     private void ProcessMoveToActions(
-        DynamicBuffer<ActiveAgentAction> activeActions, 
+        DynamicBuffer<AgentActiveAction> activeActions, 
         ref AgentBody agentBody,
         Entity agentEntity,
         ref SystemState state,

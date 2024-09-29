@@ -13,7 +13,7 @@ public enum AgentActionType : uint
     // etc.
 }
 
-public struct ActiveAgentActionTypes : IComponentData
+public struct AgentActiveActionTypes : IComponentData
 {
     public BitField32 ActiveActionsMask;
 
