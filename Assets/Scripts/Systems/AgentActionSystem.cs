@@ -26,7 +26,7 @@ public partial struct AgentActionSystem : ISystem
 
         foreach (var (pendingActions, activeActions, activeTypes, entity) in
                  SystemAPI
-                     .Query<DynamicBuffer<AgentPendingAction>, DynamicBuffer<AgentActiveAction>,
+                     .Query<DynamicBuffer<AgentPendingActionData>, DynamicBuffer<AgentActiveActionData>,
                          RefRW<AgentActiveActionTypes>>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
@@ -41,14 +41,14 @@ public partial struct AgentActionSystem : ISystem
     }
 
     [BurstCompile]
-    private void SortPendingActionsByPriority(ref SystemState state, DynamicBuffer<AgentPendingAction> pendingActions)
+    private void SortPendingActionsByPriority(ref SystemState state, DynamicBuffer<AgentPendingActionData> pendingActions)
     {
         var actionDataLookup = SystemAPI.GetComponentLookup<AgentAction>(true);
         pendingActions.AsNativeArray().Sort(new ActionPriorityComparer(actionDataLookup));
     }
 
     private void RemoveCompletedActions(ref SystemState state,
-        DynamicBuffer<AgentActiveAction> activeActions,
+        DynamicBuffer<AgentActiveActionData> activeActions,
         ref AgentActiveActionTypes agentActiveTypes,
         EntityCommandBuffer ecb)
     {
@@ -68,8 +68,8 @@ public partial struct AgentActionSystem : ISystem
     }
 
     private void ProcessPendingActions(ref SystemState state,
-        DynamicBuffer<AgentPendingAction> pendingActions,
-        DynamicBuffer<AgentActiveAction> activeActions,
+        DynamicBuffer<AgentPendingActionData> pendingActions,
+        DynamicBuffer<AgentActiveActionData> activeActions,
         ref AgentActiveActionTypes agentActiveTypes,
         EntityCommandBuffer ecb)
     {
@@ -108,7 +108,7 @@ public partial struct AgentActionSystem : ISystem
         }
     }
 
-    private int GetHighestActivePriority(ref SystemState state, DynamicBuffer<AgentActiveAction> activeActions)
+    private int GetHighestActivePriority(ref SystemState state, DynamicBuffer<AgentActiveActionData> activeActions)
     {
         int highestPriority = int.MinValue;
         foreach (var activeAction in activeActions)
@@ -124,7 +124,7 @@ public partial struct AgentActionSystem : ISystem
     }
 
     private bool CanRunInParallelWithAll(ref SystemState state, AgentAction pendingAction,
-        DynamicBuffer<AgentActiveAction> activeActions)
+        DynamicBuffer<AgentActiveActionData> activeActions)
     {
         foreach (var activeAction in activeActions)
         {
@@ -151,7 +151,7 @@ public partial struct AgentActionSystem : ISystem
     }
 
     private void ClearActiveActions(ref SystemState state,
-        DynamicBuffer<AgentActiveAction> activeActions,
+        DynamicBuffer<AgentActiveActionData> activeActions,
         ref AgentActiveActionTypes agentActiveTypes,
         EntityCommandBuffer ecb)
     {
@@ -170,19 +170,19 @@ public partial struct AgentActionSystem : ISystem
     private void ActivateAction(ref SystemState state,
         Entity actionEntity,
         AgentAction actionData,
-        DynamicBuffer<AgentActiveAction> activeActions,
+        DynamicBuffer<AgentActiveActionData> activeActions,
         ref AgentActiveActionTypes agentActiveTypes,
         EntityCommandBuffer ecb)
     {
         Debug.LogFormat("Activating action of type {0}", actionData.Type);
 
-        activeActions.Add(new AgentActiveAction { ActionEntity = actionEntity });
+        activeActions.Add(new AgentActiveActionData { ActionEntity = actionEntity });
         agentActiveTypes.Add(actionData.Type);
         actionData.State = AgentActionState.NotStarted;
         ecb.SetComponent(actionEntity, actionData);
     }
 
-    private struct ActionPriorityComparer : IComparer<AgentPendingAction>
+    private struct ActionPriorityComparer : IComparer<AgentPendingActionData>
     {
         [ReadOnly]
         private ComponentLookup<AgentAction> agentActionFromEntity;
@@ -192,7 +192,7 @@ public partial struct AgentActionSystem : ISystem
             this.agentActionFromEntity = actionDataFromEntity;
         }
 
-        public int Compare(AgentPendingAction x, AgentPendingAction y)
+        public int Compare(AgentPendingActionData x, AgentPendingActionData y)
         {
             return agentActionFromEntity[y.ActionEntity].Priority
                 .CompareTo(agentActionFromEntity[x.ActionEntity].Priority);
