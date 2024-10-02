@@ -1,6 +1,5 @@
 using Unity.Entities;
 using ProjectDawn.Navigation;
-using UnityEngine;
 
 [UpdateInGroup(typeof(ActionProcessingSystemGroup))]
 public partial struct ActionSequenceActionSystem : ISystem

@@ -1,4 +1,6 @@
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 
 [UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
@@ -18,9 +20,18 @@ public partial struct PlayerControlSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
-        if (!SystemAPI.IsComponentEnabled<TargetPosition>(playerEntity))
-            return;
-        
+        if (SystemAPI.IsComponentEnabled<TargetPosition>(playerEntity))
+        {
+            MoveToPosition(ref state, playerEntity); 
+        }
+        else if (SystemAPI.IsComponentEnabled<TargetEntity>(playerEntity))
+        {
+            MoveToAndInteractWithEntity(ref state, playerEntity); 
+        } 
+    }
+
+    void MoveToPosition(ref SystemState state, Entity playerEntity)
+    {
         var targetPosition = SystemAPI.GetComponent<TargetPosition>(playerEntity);
         var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
         
@@ -28,6 +39,7 @@ public partial struct PlayerControlSystem : ISystem
             .CreateCommandBuffer(state.WorldUnmanaged);
 
         Debug.LogFormat("Creating MoveTo action to position {0}", targetPosition.targetPosition);
+        
         // Create the action entity
         var actionEntity = ecb.CreateEntity();
         ecb.AddComponent(actionEntity, new AgentMoveToPositionAction
@@ -48,7 +60,22 @@ public partial struct PlayerControlSystem : ISystem
             ActionEntity = actionEntity
         });
 
-        // Disable the TargetPosition component
         ecb.SetComponentEnabled<TargetPosition>(playerEntity, false);
+    }
+
+    private void MoveToAndInteractWithEntity(ref SystemState state, Entity playerEntity)
+    {
+        var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
+            .CreateCommandBuffer(state.WorldUnmanaged);
+        
+        var target = SystemAPI.GetComponent<TargetEntity>(playerEntity);
+        var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
+
+        var entityPosition = SystemAPI.GetComponentRW<LocalTransform>(target.targetEntity);
+        Debug.Log("Creating MoveToEntity action");
+        
+        // TODONOW
+        
+        ecb.SetComponentEnabled<TargetEntity>(playerEntity, false);
     }
 }
