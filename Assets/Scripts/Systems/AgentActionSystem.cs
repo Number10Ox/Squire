@@ -86,7 +86,7 @@ public partial struct AgentActionSystem : ISystem
                 break; // Stop processing as remaining actions have lower priority
             }
 
-            Debug.LogFormat("Processing pending action");
+            Debug.Log("Processing pending action");
 
             if (pendingActionData.Interrupt)
             {
@@ -174,8 +174,6 @@ public partial struct AgentActionSystem : ISystem
         ref AgentActiveActionTypes agentActiveTypes,
         EntityCommandBuffer ecb)
     {
-        Debug.LogFormat("Activating action of type {0}", actionData.Type);
-
         activeActions.Add(new AgentActiveActionData { ActionEntity = actionEntity });
         agentActiveTypes.Add(actionData.Type);
         actionData.State = AgentActionState.NotStarted;
