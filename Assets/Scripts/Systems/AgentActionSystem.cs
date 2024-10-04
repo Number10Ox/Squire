@@ -27,7 +27,7 @@ public partial struct AgentActionSystem : ISystem
         foreach (var (pendingActions, activeActions, activeTypes, entity) in
                  SystemAPI
                      .Query<DynamicBuffer<AgentPendingActionData>, DynamicBuffer<AgentActiveActionData>,
-                         RefRW<AgentActiveActionTypes>>()
+                         RefRW<AgentActiveActionType>>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
         {
@@ -49,7 +49,7 @@ public partial struct AgentActionSystem : ISystem
 
     private void RemoveCompletedActions(ref SystemState state,
         DynamicBuffer<AgentActiveActionData> activeActions,
-        ref AgentActiveActionTypes agentActiveTypes,
+        ref AgentActiveActionType agentActiveType,
         EntityCommandBuffer ecb)
     {
         for (int i = activeActions.Length - 1; i >= 0; i--)
@@ -61,7 +61,7 @@ public partial struct AgentActionSystem : ISystem
             {
                 Debug.Log("Active action is DONE");
                 activeActions.RemoveAt(i);
-                agentActiveTypes.Remove(agentAction.Type);
+                agentActiveType.Remove(agentAction.Type);
                 ecb.DestroyEntity(actionEntity);
             }
         }
@@ -70,7 +70,7 @@ public partial struct AgentActionSystem : ISystem
     private void ProcessPendingActions(ref SystemState state,
         DynamicBuffer<AgentPendingActionData> pendingActions,
         DynamicBuffer<AgentActiveActionData> activeActions,
-        ref AgentActiveActionTypes agentActiveTypes,
+        ref AgentActiveActionType agentActiveType,
         EntityCommandBuffer ecb)
     {
         int highestActivePriority = GetHighestActivePriority(ref state, activeActions);
@@ -92,14 +92,14 @@ public partial struct AgentActionSystem : ISystem
             {
                 Debug.Log("Pending action INTERRUPTING");
                 // Clear active actions and activate this one
-                ClearActiveActions(ref state, activeActions, ref agentActiveTypes, ecb);
-                ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveTypes, ecb);
+                ClearActiveActions(ref state, activeActions, ref agentActiveType, ecb);
+                ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveType, ecb);
                 highestActivePriority = pendingActionData.Priority;
             }
             else if (CanRunInParallelWithAll(ref state, pendingActionData, activeActions))
             {
                 // Activate this action alongside existing ones
-                ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveTypes, ecb);
+                ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveType, ecb);
             }
 
             // Remove the processed pending action
@@ -152,7 +152,7 @@ public partial struct AgentActionSystem : ISystem
 
     private void ClearActiveActions(ref SystemState state,
         DynamicBuffer<AgentActiveActionData> activeActions,
-        ref AgentActiveActionTypes agentActiveTypes,
+        ref AgentActiveActionType agentActiveType,
         EntityCommandBuffer ecb)
     {
         for (int i = activeActions.Length - 1; i >= 0; i--)
@@ -164,18 +164,18 @@ public partial struct AgentActionSystem : ISystem
         }
 
         activeActions.Clear();
-        agentActiveTypes.Clear();
+        agentActiveType.Clear();
     }
 
     private void ActivateAction(ref SystemState state,
         Entity actionEntity,
         AgentAction actionData,
         DynamicBuffer<AgentActiveActionData> activeActions,
-        ref AgentActiveActionTypes agentActiveTypes,
+        ref AgentActiveActionType agentActiveType,
         EntityCommandBuffer ecb)
     {
         activeActions.Add(new AgentActiveActionData { ActionEntity = actionEntity });
-        agentActiveTypes.Add(actionData.Type);
+        agentActiveType.Add(actionData.Type);
         actionData.State = AgentActionState.NotStarted;
         ecb.SetComponent(actionEntity, actionData);
     }

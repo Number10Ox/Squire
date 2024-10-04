@@ -7,13 +7,13 @@ public enum AgentActionType : uint
 {
     None = 0,
     MoveTo = 1 << 0,
-    // Attack = 1 << 1,
-    // Interact = 1 << 2,
+    Sequence = 1 << 1,
+    Interact = 1 << 2,
     // UseItem = 1 << 3,
     // etc.
 }
 
-public struct AgentActiveActionTypes : IComponentData
+public struct AgentActiveActionType : IComponentData
 {
     public BitField32 ActiveActionsMask;
 

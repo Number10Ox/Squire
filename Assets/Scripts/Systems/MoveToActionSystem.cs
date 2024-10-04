@@ -20,16 +20,16 @@ public partial struct MoveToActionSystem : ISystem
     {
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
-        foreach (var (activeActions, agentBody, activeTypes, entity) in 
-            SystemAPI.Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionTypes>>()
-                .WithAll<AgentTag>()
-                .WithEntityAccess())
+        foreach (var (activeActions, agentBody, activeTypes, entity) in
+                 SystemAPI
+                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
+                     .WithAll<AgentTag>()
+                     .WithEntityAccess())
         {
-            // Skip agents without active MoveToActions
-            if (!activeTypes.ValueRO.Has(AgentActionType.MoveTo)) 
-                continue; 
-
-            ProcessMoveToActions(activeActions, ref agentBody.ValueRW, entity, ref state, ecb);
+            if (activeTypes.ValueRO.Has(AgentActionType.MoveTo) || activeTypes.ValueRO.Has(AgentActionType.Sequence))
+            {
+                ProcessMoveToActions(activeActions, ref agentBody.ValueRW, ref state, ecb);
+            }
         }
 
         ecb.Playback(state.EntityManager);
@@ -37,41 +37,70 @@ public partial struct MoveToActionSystem : ISystem
     }
 
     private void ProcessMoveToActions(
-        DynamicBuffer<AgentActiveActionData> activeActions, 
-        ref AgentBody agentBody,
-        Entity agentEntity,
-        ref SystemState state,
+        DynamicBuffer<AgentActiveActionData> activeActions, ref AgentBody agentBody, ref SystemState state,
         EntityCommandBuffer ecb)
     {
         for (int i = 0; i < activeActions.Length; i++)
         {
             var actionEntity = activeActions[i].ActionEntity;
-            
-            if (!SystemAPI.HasComponent<AgentMoveToPositionAction>(actionEntity)) continue;
-
             var actionData = SystemAPI.GetComponent<AgentAction>(actionEntity);
-            var moveToAction = SystemAPI.GetComponent<AgentMoveToPositionAction>(actionEntity);
 
-            switch (actionData.State)
+            if (SystemAPI.HasComponent<AgentMoveToPositionAction>(actionEntity))
             {
-                case AgentActionState.NotStarted:
-                    Debug.Log("STARTING: MoveTo");
-                    agentBody.SetDestination(moveToAction.TargetPosition);
-                    actionData.State = AgentActionState.Running;
-                    ecb.SetComponent(actionEntity, actionData);
-                    break;
-                case AgentActionState.Running:
-                    if (agentBody.IsStopped)
-                    {
-                        Debug.Log("MARKING DONE: MoveTo");
-                        actionData.State = AgentActionState.Done;
-                        ecb.SetComponent(actionEntity, actionData);
-                    }
-                    break;
-                case AgentActionState.Done:
-                    // Will be handled by AgentActionSystem
-                    break;
+                ProcessMoveToPosition(actionEntity, ref actionData, ref agentBody, ref state, ecb);
+            }
+            else if (SystemAPI.HasComponent<AgentActionSequenceAction>(actionEntity))
+            {
+                ProcessActionSequenceAction(actionEntity, ref actionData, ref agentBody, ref state, ecb);
             }
         }
+    }
+
+    private void ProcessMoveToPosition(Entity actionEntity, ref AgentAction actionData,
+        ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
+    {
+        var moveToAction = SystemAPI.GetComponent<AgentMoveToPositionAction>(actionEntity);
+
+        switch (actionData.State)
+        {
+            case AgentActionState.NotStarted:
+                agentBody.SetDestination(moveToAction.TargetPosition);
+                actionData.State = AgentActionState.Running;
+                ecb.SetComponent(actionEntity, actionData);
+                break;
+            case AgentActionState.Running:
+                if (agentBody.IsStopped)
+                {
+                    actionData.State = AgentActionState.Done;
+                    ecb.SetComponent(actionEntity, actionData);
+                }
+
+                break;
+            case AgentActionState.Done:
+                // Will be handled by AgentActionSystem
+                break;
+        }
+    }
+
+    private void ProcessActionSequenceAction(Entity actionEntity, ref AgentAction actionData,
+        ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
+    {
+        if (actionData.State != AgentActionState.Running)
+        {
+            // Wait until sequence action has been processed
+            return;
+        }
+
+        var buffer = SystemAPI.GetBuffer<AgentActiveActionData>(actionEntity);
+        var activeActionData = buffer[0];
+        var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
+
+        if (runningActionData.Type != AgentActionType.MoveTo)
+        {
+            // Ignore if active action isn't a MoveToAction
+            return;
+        }
+
+        ProcessMoveToPosition(activeActionData.ActionEntity, ref runningActionData, ref agentBody, ref state, ecb);
     }
 }
