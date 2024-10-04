@@ -38,7 +38,7 @@ public partial struct SpawnSystem : ISystem
                 // Position the squire
                 var transform = SystemAPI.GetComponentRW<LocalTransform>(entity);
                 transform.ValueRW.Position = spawnPoint.Position;
-                Debug.LogFormat("Spawning squire at {0}", spawnPoint.Position);
+                // Debug.LogFormat("Spawning squire at {0}", spawnPoint.Position);
             }
         }
     }

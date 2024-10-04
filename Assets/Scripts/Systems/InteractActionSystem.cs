@@ -87,11 +87,11 @@ public partial struct InteractActionSystem : ISystem
             return;
         }
 
-        var buffer = SystemAPI.GetBuffer<AgentActiveActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
         var activeActionData = buffer[0];
         var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
 
-        if (runningActionData.Type != AgentActionType.Interact)
+        if (runningActionData.Type != AgentActionType.Interact || runningActionData.State != AgentActionState.NotStarted)
         {
             // Ignore if active action isn't an Interact action
             return;

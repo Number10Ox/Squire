@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5697554689779579302}
   - component: {fileID: 8726425741057545718}
   - component: {fileID: 6296550445843064070}
+  - component: {fileID: -2245786143866558302}
   m_Layer: 7
   m_Name: LootChest
   m_TagString: Untagged
@@ -548,3 +549,19 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
+--- !u!208 &-2245786143866558302
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3749930390331083022}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

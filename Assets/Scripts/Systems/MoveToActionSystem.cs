@@ -65,14 +65,21 @@ public partial struct MoveToActionSystem : ISystem
         {
             case AgentActionState.NotStarted:
                 agentBody.SetDestination(moveToAction.TargetPosition);
+                // Debug.Log("--> SETTING DESTINATION");
                 actionData.State = AgentActionState.Running;
                 ecb.SetComponent(actionEntity, actionData);
                 break;
             case AgentActionState.Running:
                 if (agentBody.IsStopped)
                 {
+                    Debug.Log("Setting MoveToPosition state to Done and Result to Success");
                     actionData.State = AgentActionState.Done;
+                    actionData.Result = AgentActionResult.Success;
                     ecb.SetComponent(actionEntity, actionData);
+                }
+                else
+                {
+                    Debug.Log("MoveToPosition will running and NOT STOPPED");
                 }
 
                 break;
@@ -91,13 +98,13 @@ public partial struct MoveToActionSystem : ISystem
             return;
         }
 
-        var buffer = SystemAPI.GetBuffer<AgentActiveActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
         var activeActionData = buffer[0];
         var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
 
-        if (runningActionData.Type != AgentActionType.MoveTo)
+        if (runningActionData.Type != AgentActionType.MoveTo) 
         {
-            // Ignore if active action isn't a MoveToAction
+            // Ignore if active action isn't a MoveTo action
             return;
         }
 

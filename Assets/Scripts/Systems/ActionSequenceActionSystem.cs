@@ -2,6 +2,7 @@ using System;
 using Unity.Entities;
 using ProjectDawn.Navigation;
 using Unity.Collections;
+using UnityEngine;
 
 [UpdateInGroup(typeof(ActionProcessingSystemGroup))]
 public partial struct ActionSequenceActionSystem : ISystem
@@ -77,7 +78,7 @@ public partial struct ActionSequenceActionSystem : ISystem
     private void UpdateCurrentActionInSequence(Entity actionEntity, ref AgentAction actionData,
         ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
     {
-        var buffer = SystemAPI.GetBuffer<AgentActiveActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
 
         if (buffer.IsEmpty)
         {
@@ -96,13 +97,13 @@ public partial struct ActionSequenceActionSystem : ISystem
         switch (runningAction.Result)
         {
             case AgentActionResult.Success:
-                var newBuffer = new NativeArray<AgentActiveActionData>(buffer.Length - 1, Allocator.Temp);
+                var newBuffer = new NativeArray<AgentSequenceActionData>(buffer.Length - 1, Allocator.Temp);
                 for (int i = 1; i < buffer.Length; i++)
                 {
                     newBuffer[i - 1] = buffer[i];
                 }
 
-                ecb.SetBuffer<AgentActiveActionData>(actionEntity).CopyFrom(newBuffer);
+                ecb.SetBuffer<AgentSequenceActionData>(actionEntity).CopyFrom(newBuffer);
                 newBuffer.Dispose();
                 
                 if (buffer.Length == 1) // Will be empty after removal

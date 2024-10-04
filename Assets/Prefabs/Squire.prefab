@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: 506405046952383523}
   - component: {fileID: 6603581033300172392}
   - component: {fileID: 5061613029791944786}
-  m_Layer: 0
+  - component: {fileID: 1235308580475549132}
+  m_Layer: 7
   m_Name: Squire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +57,7 @@ MonoBehaviour:
   Speed: 8
   Acceleration: 8
   AngularSpeed: 360
-  StoppingDistance: 0.1
+  StoppingDistance: 1
   AutoBreaking: 1
   m_Layers: 1
 --- !u!114 &4757973539863038742
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MotionType: 0
+  m_MotionType: 1
   m_Smoothing: 0
   m_Mass: 1
   m_LinearDamping: 0.01
@@ -367,3 +368,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1235308580475549132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872736142801974644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a4cd4cbf6cf044887ce5ff1955fa9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HiveMindStop:
+    Enabled: 1
+    Radius: 1
+  m_GiveUpStop:
+    Enabled: 0
+    FatigueSpeed: 0.5
+    RecoverySpeed: 0.4
