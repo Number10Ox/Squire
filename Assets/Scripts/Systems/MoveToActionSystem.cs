@@ -1,5 +1,6 @@
 using Unity.Entities;
 using ProjectDawn.Navigation;
+using Unity.Burst;
 using UnityEngine;
 
 [UpdateInGroup(typeof(ActionProcessingSystemGroup))]
@@ -15,7 +16,7 @@ public partial struct MoveToActionSystem : ISystem
     {
     }
 
-    [Unity.Burst.BurstCompile]
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
@@ -106,3 +107,37 @@ public partial struct MoveToActionSystem : ISystem
         ProcessMoveToPosition(activeActionData.ActionEntity, ref runningActionData, ref agentBody, ref state, ecb);
     }
 }
+
+/* TODO WORK IN PROGRESS
+ 
+[UpdateInGroup(typeof(ActionProcessingSystemGroup))]
+public partial struct ParallelMoveToActionSystem : ISystem
+{
+    private EntityQuery actionQuery;
+    private ComponentLookup<AgentBody> agentBodyLookup;
+    
+    public void OnCreate(ref SystemState state)
+    {
+        actionQuery = state.GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[]
+            {
+                ComponentType.ReadWrite<AgentAction>(),
+                ComponentType.ReadOnly<AgentActiveActionType>(),
+                ComponentType.ReadOnly<AgentBody>(),
+                ComponentType.ReadOnly<AgentMoveToPositionAction>(),
+            },
+        });
+
+        agentBodyLookup = state.GetComponentLookup<AgentBody>(false);
+    }
+
+    public void OnDestroy(ref SystemState state)
+    {
+    }
+
+    public void OnUpdate(ref SystemState state)
+    {
+    }
+}
+*/
