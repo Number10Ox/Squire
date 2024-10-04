@@ -5,13 +5,13 @@ using Unity.Entities;
 using UnityEngine;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-[UpdateAfter(typeof(AgentActionQueueSystem))]
+[UpdateAfter(typeof(AgentActionSystem))]
 public partial class ActionProcessingSystemGroup : ComponentSystemGroup
 {
 }
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-public partial struct AgentActionQueueSystem : ISystem
+public partial struct AgentActionSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)

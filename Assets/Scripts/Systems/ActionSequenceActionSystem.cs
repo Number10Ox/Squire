@@ -70,7 +70,7 @@ public partial struct ActionSequenceActionSystem : ISystem
                 UpdateCurrentActionInSequence(actionEntity, ref actionData, ref agentBody, ref state, ecb);
                 break;
             case AgentActionState.Done:
-                // Will be handled by AgentActionQueueSystem
+                // Will be handled by AgentActionSystem
                 break;
         }
     }
