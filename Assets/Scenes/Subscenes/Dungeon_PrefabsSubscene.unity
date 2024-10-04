@@ -358,7 +358,7 @@ Transform:
   m_GameObject: {fileID: 510306892}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.9, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4437,6 +4437,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 573675639}
     m_Modifications:
+    - target: {fileID: -2245786143866558302, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
+      propertyPath: m_Extents.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -2245786143866558302, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
+      propertyPath: m_Extents.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2245786143866558302, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
+      propertyPath: m_Extents.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3749930390331083022, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
       propertyPath: m_Name
       value: LootChest
@@ -4487,7 +4499,7 @@ PrefabInstance:
       objectReference: {fileID: 39495167}
     - target: {fileID: 5564530816968779739, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
       propertyPath: m_VersionIndex
-      value: 251
+      value: 257
       objectReference: {fileID: 0}
     - target: {fileID: 5697554689779579302, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
       propertyPath: m_Mesh
@@ -4497,6 +4509,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 39495167}
+    - target: {fileID: 8726425741057545718, guid: 9770f51b02532480da55b53de71bbfd7, type: 3}
+      propertyPath: m_MotionType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
