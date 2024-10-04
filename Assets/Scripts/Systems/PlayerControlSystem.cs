@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ public partial struct PlayerControlSystem : ISystem
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
-        Debug.LogFormat("Creating MoveTo action to position {0}", targetPosition.targetPosition);
+        Debug.LogFormat("Creating MoveTo POSITION action to position {0}", targetPosition.targetPosition);
         
         // Create the action entity
         var actionEntity = ecb.CreateEntity();
@@ -89,8 +88,10 @@ public partial struct PlayerControlSystem : ISystem
         });  
         
         ecb.AddComponent(actionSequenceEntity, new AgentActionSequenceAction());
-        ecb.AddBuffer<AgentActiveActionData>(actionSequenceEntity);
+        ecb.AddBuffer<AgentSequenceActionData>(actionSequenceEntity);
 
+        Debug.LogFormat("Creating MoveTo ENTITY action to position {0}", targetEntityPosition.Position);
+        
         // Create MoveTo and Interact actions
         Entity moveToActionEntity = ecb.CreateEntity();
         ecb.AddComponent(moveToActionEntity, new AgentMoveToPositionAction() { TargetPosition =  targetEntityPosition.Position  });
@@ -115,8 +116,8 @@ public partial struct PlayerControlSystem : ISystem
         });  
 
         // Add the MoveTo and Interact action the AgentActionSequenceAction pending action queue
-        ecb.AppendToBuffer(actionSequenceEntity, new AgentActiveActionData { ActionEntity = moveToActionEntity });
-        ecb.AppendToBuffer(actionSequenceEntity, new AgentActiveActionData { ActionEntity = interactActionEntity});
+        ecb.AppendToBuffer(actionSequenceEntity, new AgentSequenceActionData { ActionEntity = moveToActionEntity });
+        ecb.AppendToBuffer(actionSequenceEntity, new AgentSequenceActionData { ActionEntity = interactActionEntity});
         
         // Add the sequence action to the squire's pending action queue
         ecb.AppendToBuffer(squireEntity, new AgentPendingActionData()

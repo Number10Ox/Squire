@@ -57,6 +57,7 @@ public partial struct AgentActionSystem : ISystem
             var actionEntity = activeActions[i].ActionEntity;
             var agentAction = SystemAPI.GetComponent<AgentAction>(actionEntity);
 
+            // TODONOW IS THIS WORKING??
             if (agentAction.State == AgentActionState.Done)
             {
                 Debug.Log("Active action is DONE");
@@ -90,7 +91,6 @@ public partial struct AgentActionSystem : ISystem
 
             if (pendingActionData.Interrupt)
             {
-                Debug.Log("Pending action INTERRUPTING");
                 // Clear active actions and activate this one
                 ClearActiveActions(ref state, activeActions, ref agentActiveType, ecb);
                 ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveType, ecb);
@@ -102,9 +102,8 @@ public partial struct AgentActionSystem : ISystem
                 ActivateAction(ref state, pendingActionEntity, pendingActionData, activeActions, ref agentActiveType, ecb);
             }
 
-            // Remove the processed pending action
             pendingActions.RemoveAt(i);
-            i--; // Adjust index after removal
+            i--;
         }
     }
 
