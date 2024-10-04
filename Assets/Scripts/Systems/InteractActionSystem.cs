@@ -64,9 +64,9 @@ public partial struct InteractActionSystem : ISystem
         switch (actionData.State)
         {
             case AgentActionState.NotStarted:
-                // TODO
                 Debug.Log("EXECUTE ACTION: INTERACT");
                 actionData.State = AgentActionState.Done;
+                actionData.Result = AgentActionResult.Success;
                 ecb.SetComponent(actionEntity, actionData);
                 break;
             case AgentActionState.Running:

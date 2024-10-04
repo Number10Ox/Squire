@@ -72,14 +72,9 @@ public partial struct MoveToActionSystem : ISystem
             case AgentActionState.Running:
                 if (agentBody.IsStopped)
                 {
-                    Debug.Log("Setting MoveToPosition state to Done and Result to Success");
                     actionData.State = AgentActionState.Done;
                     actionData.Result = AgentActionResult.Success;
                     ecb.SetComponent(actionEntity, actionData);
-                }
-                else
-                {
-                    Debug.Log("MoveToPosition will running and NOT STOPPED");
                 }
 
                 break;
