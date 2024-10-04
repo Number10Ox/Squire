@@ -53,6 +53,7 @@ public partial struct PlayerControlSystem : ISystem
             Priority = 1,
             Interrupt = true,
             State = AgentActionState.NotStarted,
+            Result = AgentActionResult.Pending
         }); 
         
         ecb.AppendToBuffer(squireEntity, new AgentPendingActionData()
@@ -60,6 +61,7 @@ public partial struct PlayerControlSystem : ISystem
             ActionEntity = actionEntity
         });
 
+        // Disable player TargetPosition component
         ecb.SetComponentEnabled<TargetPosition>(playerEntity, false);
     }
 
@@ -67,15 +69,62 @@ public partial struct PlayerControlSystem : ISystem
     {
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
-        
-        var target = SystemAPI.GetComponent<TargetEntity>(playerEntity);
+
+        var targetEntity = SystemAPI.GetComponent<TargetEntity>(playerEntity);
         var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
 
-        var entityPosition = SystemAPI.GetComponentRW<LocalTransform>(target.targetEntity);
-        Debug.Log("Creating MoveToEntity action");
+        var targetEntityPosition = SystemAPI.GetComponent<LocalTransform>(targetEntity.target);
         
-        // TODONOW
+        // Create an action entity with AgentAction and AgentActionSequenceAction components
+        // and a queue of AgentPendingActionData 
+        var actionSequenceEntity = ecb.CreateEntity();
         
+        ecb.AddComponent(actionSequenceEntity, new AgentAction()
+        {
+            Type = AgentActionType.Sequence,
+            Priority = 1,
+            Interrupt = true,
+            State = AgentActionState.NotStarted,
+            Result = AgentActionResult.Pending
+        });  
+        
+        ecb.AddComponent(actionSequenceEntity, new AgentActionSequenceAction());
+        ecb.AddBuffer<AgentActiveActionData>(actionSequenceEntity);
+
+        // Create MoveTo and Interact actions
+        Entity moveToActionEntity = ecb.CreateEntity();
+        ecb.AddComponent(moveToActionEntity, new AgentMoveToPositionAction() { TargetPosition =  targetEntityPosition.Position  });
+        ecb.AddComponent(moveToActionEntity, new AgentAction()
+        {
+            Type = AgentActionType.MoveTo,
+            Priority = 1,
+            Interrupt = true,
+            State = AgentActionState.NotStarted,
+            Result = AgentActionResult.Pending
+        });    
+        
+        Entity interactActionEntity = ecb.CreateEntity();
+        ecb.AddComponent(interactActionEntity, new AgentInteractAction { TargetEntity = targetEntity.target });
+        ecb.AddComponent(interactActionEntity, new AgentAction()
+        {
+            Type = AgentActionType.Interact,
+            Priority = 1,
+            Interrupt = true,
+            State = AgentActionState.NotStarted,
+            Result = AgentActionResult.Pending
+        });  
+
+        // Add the MoveTo and Interact action the AgentActionSequenceAction pending action queue
+        ecb.AppendToBuffer(actionSequenceEntity, new AgentActiveActionData { ActionEntity = moveToActionEntity });
+        ecb.AppendToBuffer(actionSequenceEntity, new AgentActiveActionData { ActionEntity = interactActionEntity});
+        
+        // Add the sequence action to the squire's pending action queue
+        ecb.AppendToBuffer(squireEntity, new AgentPendingActionData()
+        {
+            ActionEntity = actionSequenceEntity
+        }); 
+            
+        // Disable player TargetEntity component
         ecb.SetComponentEnabled<TargetEntity>(playerEntity, false);
     }
 }

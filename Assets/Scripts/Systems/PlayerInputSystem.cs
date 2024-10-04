@@ -86,7 +86,7 @@ public partial class PlayerInputSystem : SystemBase
             
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
             var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
-            targetEntityComponent.targetEntity = raycastHit.Entity;
+            targetEntityComponent.target = raycastHit.Entity;
             SystemAPI.SetComponent(playerEntity, targetEntityComponent);
             SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
         }

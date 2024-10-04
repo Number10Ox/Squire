@@ -12,7 +12,7 @@ public class SquireAuthoring : MonoBehaviour
             AddComponent(entity, new AgentTag());
             AddBuffer<AgentPendingActionData>(entity);
             AddBuffer<AgentActiveActionData>(entity);
-            AddComponent(entity, new AgentActiveActionTypes());
+            AddComponent(entity, new AgentActiveActionType());
         }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerAuthoring : MonoBehaviour
             });
             AddComponent(playerEntity, new TargetEntity()
             {
-                targetEntity = Entity.Null
+                target = Entity.Null
             });
             
             SetComponentEnabled<TargetPosition>(playerEntity, false);
