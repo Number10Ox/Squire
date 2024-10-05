@@ -64,7 +64,10 @@ public partial struct InteractActionSystem : ISystem
         switch (actionData.State)
         {
             case AgentActionState.NotStarted:
-                Debug.Log("EXECUTE ACTION: INTERACT");
+                Debug.Log($"EXECUTE ACTION: INTERACT on entity {interactAction.TargetEntity}");
+            
+                ecb.DestroyEntity(interactAction.TargetEntity);
+
                 actionData.State = AgentActionState.Done;
                 actionData.Result = AgentActionResult.Success;
                 ecb.SetComponent(actionEntity, actionData);

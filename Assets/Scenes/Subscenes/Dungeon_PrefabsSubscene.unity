@@ -389,6 +389,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FancyLootBox
       objectReference: {fileID: 0}
+    - target: {fileID: 184818, guid: 6a57b9f39fb08014aabf0466d55fedb9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 481626, guid: 6a57b9f39fb08014aabf0466d55fedb9, type: 3}
       propertyPath: m_LocalScale.x
       value: 8

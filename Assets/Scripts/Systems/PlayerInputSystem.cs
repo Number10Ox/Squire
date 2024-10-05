@@ -69,7 +69,7 @@ public partial class PlayerInputSystem : SystemBase
         CollisionLayers layers = CollisionLayersFromRaycastHit(raycastHit);
         if ((layers & CollisionLayers.Ground) != 0)
         {
-            Debug.Log("Enabling *TargetPosition* on PlayerEntity!");
+            // Debug.Log("Enabling *TargetPosition* on PlayerEntity!");
 
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
             var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);

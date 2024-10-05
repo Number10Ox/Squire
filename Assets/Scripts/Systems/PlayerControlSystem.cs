@@ -37,7 +37,7 @@ public partial struct PlayerControlSystem : ISystem
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
-        Debug.LogFormat("Creating MoveTo POSITION action to position {0}", targetPosition.targetPosition);
+        // Debug.LogFormat("Creating MoveTo POSITION action to position {0}", targetPosition.targetPosition);
         
         // Create the action entity
         var actionEntity = ecb.CreateEntity();
