@@ -87,8 +87,6 @@ public partial struct AgentActionSystem : ISystem
                 break; // Stop processing as remaining actions have lower priority
             }
 
-            Debug.Log("Processing pending action");
-
             if (pendingActionData.Interrupt)
             {
                 // Clear active actions and activate this one

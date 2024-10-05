@@ -1,14 +1,17 @@
 using Unity.Entities;
+using Unity.VisualScripting;
 using UnityEngine;
+
 public class LootChestAuthoring : MonoBehaviour
 {
     public class LootChestBaker : Baker<LootChestAuthoring>
     {
         public override void Bake(LootChestAuthoring authoring)
         {
-            var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent<LootChest>(playerEntity);
-            AddComponent<Interactable>(playerEntity);
+            var lootChestEntity = GetEntity(TransformUsageFlags.Dynamic);
+        
+            AddComponent<LootChest>(lootChestEntity);
+            AddComponent<Interactable>(lootChestEntity);
         }
     }
 }

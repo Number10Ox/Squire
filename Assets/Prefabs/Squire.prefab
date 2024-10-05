@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6603581033300172392}
   - component: {fileID: 5061613029791944786}
   - component: {fileID: 1235308580475549132}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Squire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,8 +237,8 @@ MonoBehaviour:
       m_Value:
         Category00: 0
         Category01: 0
-        Category02: 1
-        Category03: 0
+        Category02: 0
+        Category03: 1
         Category04: 0
         Category05: 0
         Category06: 0
