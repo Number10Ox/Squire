@@ -1,14 +1,11 @@
 using Unity.Entities;
 using UnityEngine;
 
-    // An authoring component is just a normal MonoBehavior that has a Baker<T> class.
     public class SpawnerAuthoring : MonoBehaviour
     {
-        public GameObject Prefab;
+        public GameObject SquirePrefab;
+        public GameObject HeroPrefab;
 
-        // In baking, this Baker will run once for every SpawnerAuthoring instance in a subscene.
-        // (Note that nesting an authoring component's Baker class inside the authoring MonoBehaviour class
-        // is simply an optional matter of style.)
         class Baker : Baker<SpawnerAuthoring>
         {
             public override void Bake(SpawnerAuthoring authoring)
@@ -16,7 +13,8 @@ using UnityEngine;
                 var entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new Spawner
                 {
-                    Prefab = GetEntity(authoring.Prefab, TransformUsageFlags.Dynamic)
+                    SquirePrefab = GetEntity(authoring.SquirePrefab, TransformUsageFlags.Dynamic),
+                    HeroPrefab = GetEntity(authoring.HeroPrefab, TransformUsageFlags.Dynamic)
                 });
             }
         }
@@ -24,5 +22,6 @@ using UnityEngine;
 
     struct Spawner : IComponentData
     {
-        public Entity Prefab;
+        public Entity SquirePrefab;
+        public Entity HeroPrefab;
     }

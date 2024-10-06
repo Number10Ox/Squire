@@ -25,10 +25,10 @@ public partial struct SpawnSystem : ISystem
         // Only spawn cubes when no cubes currently exist.
         if (squireQuery.IsEmpty)
         {
-            var prefab = SystemAPI.GetSingleton<Spawner>().Prefab;
+            var squirePrefab = SystemAPI.GetSingleton<Spawner>().SquirePrefab;
         
             // Instantiating an entity creates copy entities with the same component types and values.
-            var instances = state.EntityManager.Instantiate(prefab, 1, Allocator.Temp);
+            var instances = state.EntityManager.Instantiate(squirePrefab, 1, Allocator.Temp);
             
             var squireSpawnPointEntity = SystemAPI.GetSingletonEntity<SquireSpawnPointTag>();
             SpawnPoint spawnPoint = SystemAPI.GetComponent<SpawnPoint>(squireSpawnPointEntity);
