@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 5376599267288013160}
   - component: {fileID: -81897991515225059}
   - component: {fileID: 436555051289064417}
+  - component: {fileID: 3806388400308072358}
   m_Layer: 0
   m_Name: PrototypeSquire
   m_TagString: Untagged
@@ -596,6 +597,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d507bfdf80d450ca82393350abb217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3806388400308072358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716218293748773644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb757bd46edfe349a52b4ea886d67e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigConfigSource: 0
+  avatar: {fileID: 0}
+  applyRootMotion: 0
+  animationCulling: 0
+  boneEntityStrippingMode: 0
+  boneStrippingMask: {fileID: 0}
+  hasAnimationEvents: 0
+  hasAnimatorControllerEvents: 0
 --- !u!1 &1238515388206877413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1727,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41680dad0f0243748b4e228f49a2e3c4, type: 2}
+  - {fileID: 2100000, guid: fec6bc1bd6aa44c9981a4188b6d3ca67, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
