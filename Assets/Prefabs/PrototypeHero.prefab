@@ -1904,7 +1904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MotionType: 0
+  m_MotionType: 2
   m_Smoothing: 0
   m_Mass: 1
   m_LinearDamping: 0.01
@@ -2132,7 +2132,7 @@ MonoBehaviour:
   rigConfigSource: 0
   avatar: {fileID: 9000000, guid: 038320a534bd8b444b43734860d1a211, type: 3}
   applyRootMotion: 0
-  animationCulling: 1
+  animationCulling: 0
   boneEntityStrippingMode: 0
   boneStrippingMask: {fileID: 0}
   hasAnimationEvents: 0
