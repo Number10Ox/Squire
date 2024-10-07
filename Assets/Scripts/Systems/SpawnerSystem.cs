@@ -18,28 +18,34 @@ public partial struct SpawnSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        // Create a query that matches all entities having a RotationSpeed component.
-        // (The query is cached in source generation, so this does not incur a cost of recreating it every update.)
         var squireQuery = SystemAPI.QueryBuilder().WithAll<SquireTag>().Build();
-
-        // Only spawn cubes when no cubes currently exist.
         if (squireQuery.IsEmpty)
         {
             var squirePrefab = SystemAPI.GetSingleton<Spawner>().SquirePrefab;
-        
-            // Instantiating an entity creates copy entities with the same component types and values.
-            var instances = state.EntityManager.Instantiate(squirePrefab, 1, Allocator.Temp);
-            
-            var squireSpawnPointEntity = SystemAPI.GetSingletonEntity<SquireSpawnPointTag>();
-            SpawnPoint spawnPoint = SystemAPI.GetComponent<SpawnPoint>(squireSpawnPointEntity);
-
-            foreach (var entity in instances)
-            {
-                // Position the squire
-                var transform = SystemAPI.GetComponentRW<LocalTransform>(entity);
-                transform.ValueRW.Position = spawnPoint.Position;
-                // Debug.LogFormat("Spawning squire at {0}", spawnPoint.Position);
-            }
+            SpawnCharacter(ref state, squirePrefab);
         }
+        var heroQuery = SystemAPI.QueryBuilder().WithAll<HeroTag>().Build();
+        if (heroQuery.IsEmpty)
+        {
+            var heroPrefab = SystemAPI.GetSingleton<Spawner>().HeroPrefab;
+            SpawnCharacter(ref state, heroPrefab);
+        }
+    }
+
+    private void SpawnCharacter(ref SystemState state, Entity characterPrefab)
+    {
+        // Instantiating an entity creates copy entities with the same component types and values.
+        var instances = state.EntityManager.Instantiate(characterPrefab, 1, Allocator.Temp);
+            
+        var squireSpawnPointEntity = SystemAPI.GetSingletonEntity<SquireSpawnPointTag>();
+        SpawnPoint spawnPoint = SystemAPI.GetComponent<SpawnPoint>(squireSpawnPointEntity);
+
+        foreach (var entity in instances)
+        {
+            // Position the squire
+            var transform = SystemAPI.GetComponentRW<LocalTransform>(entity);
+            transform.ValueRW.Position = spawnPoint.Position;
+            // Debug.LogFormat("Spawning squire at {0}", spawnPoint.Position);
+        } 
     }
 }
