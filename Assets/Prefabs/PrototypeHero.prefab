@@ -2136,7 +2136,7 @@ MonoBehaviour:
   boneEntityStrippingMode: 0
   boneStrippingMask: {fileID: 0}
   hasAnimationEvents: 0
-  hasAnimatorControllerEvents: 0
+  hasAnimatorControllerEvents: 1
 --- !u!114 &2946935455843955904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2149,6 +2149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b446550a4e4580ba85c757e980197e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConsiderationSetData: {fileID: 11400000, guid: 321b9099482f94690a57cc39a775a170, type: 2}
 --- !u!1 &1429610698233342
 GameObject:
   m_ObjectHideFlags: 0

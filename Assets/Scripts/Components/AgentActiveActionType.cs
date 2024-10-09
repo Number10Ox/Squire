@@ -9,7 +9,7 @@ public enum AgentActionType : uint
     MoveTo = 1 << 0,
     Sequence = 1 << 1,
     Interact = 1 << 2,
-    // UseItem = 1 << 3,
+    Idle = 1 << 3,
     // etc.
 }
 
