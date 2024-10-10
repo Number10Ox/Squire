@@ -14,7 +14,7 @@ public partial struct MoveToActionSystem : ISystem
         state.RequireForUpdate<AgentTag>();
         state.RequireForUpdate<AgentBody>();
 
-        isWalkingParam = new FastAnimatorParameter("isWalking");
+        isWalkingParam = new FastAnimatorParameter("isWalkingForward");
     }
 
     public void OnDestroy(ref SystemState state)
