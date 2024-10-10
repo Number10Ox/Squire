@@ -1,15 +1,20 @@
 using Unity.Entities;
 using ProjectDawn.Navigation;
+using Rukhanka;
 using Unity.Burst;
 using UnityEngine;
 
 [UpdateInGroup(typeof(ActionProcessingSystemGroup))]
 public partial struct MoveToActionSystem : ISystem
 {
+    private FastAnimatorParameter isWalkingParam;
+
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<AgentTag>();
         state.RequireForUpdate<AgentBody>();
+
+        isWalkingParam = new FastAnimatorParameter("isWalking");
     }
 
     public void OnDestroy(ref SystemState state)
@@ -19,26 +24,29 @@ public partial struct MoveToActionSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+        var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>()
+            .CreateCommandBuffer(state.WorldUnmanaged);
 
-        foreach (var (activeActions, agentBody, activeTypes, entity) in
+        foreach (var (activeActions, agentBody, activeTypes, animationParameters, entity) in
                  SystemAPI
-                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
+                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>,
+                         AnimatorParametersAspect>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
         {
             if (activeTypes.ValueRO.Has(AgentActionType.MoveTo) || activeTypes.ValueRO.Has(AgentActionType.Sequence))
             {
-                ProcessMoveToActions(activeActions, ref agentBody.ValueRW, ref state, ecb);
+                ProcessMoveToActions(activeActions, animationParameters, ref agentBody.ValueRW, ref state, ecb);
             }
         }
 
-        ecb.Playback(state.EntityManager);
-        ecb.Dispose();
+        // ecb.Playback(state.EntityManager);
+        // ecb.Dispose();
     }
 
     private void ProcessMoveToActions(
-        DynamicBuffer<AgentActiveActionData> activeActions, ref AgentBody agentBody, ref SystemState state,
+        DynamicBuffer<AgentActiveActionData> activeActions, AnimatorParametersAspect animationParameters,
+        ref AgentBody agentBody, ref SystemState state,
         EntityCommandBuffer ecb)
     {
         for (int i = 0; i < activeActions.Length; i++)
@@ -48,16 +56,18 @@ public partial struct MoveToActionSystem : ISystem
 
             if (SystemAPI.HasComponent<AgentMoveToPositionAction>(actionEntity))
             {
-                ProcessMoveToPosition(actionEntity, ref actionData, ref agentBody, ref state, ecb);
+                ProcessMoveToPosition(actionEntity, ref actionData, animationParameters, ref agentBody, ref state, ecb);
             }
             else if (SystemAPI.HasComponent<AgentActionSequenceAction>(actionEntity))
             {
-                ProcessActionSequenceAction(actionEntity, ref actionData, ref agentBody, ref state, ecb);
+                ProcessActionSequenceAction(actionEntity, ref actionData, animationParameters, ref agentBody, ref state,
+                    ecb);
             }
         }
     }
 
     private void ProcessMoveToPosition(Entity actionEntity, ref AgentAction actionData,
+        AnimatorParametersAspect animationParameters,
         ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
     {
         var moveToAction = SystemAPI.GetComponent<AgentMoveToPositionAction>(actionEntity);
@@ -69,6 +79,9 @@ public partial struct MoveToActionSystem : ISystem
                 // Debug.Log("--> SETTING DESTINATION");
                 actionData.State = AgentActionState.Running;
                 ecb.SetComponent(actionEntity, actionData);
+
+                animationParameters.SetBoolParameter(isWalkingParam, true);
+
                 break;
             case AgentActionState.Running:
                 if (agentBody.IsStopped)
@@ -76,6 +89,8 @@ public partial struct MoveToActionSystem : ISystem
                     actionData.State = AgentActionState.Done;
                     actionData.Result = AgentActionResult.Success;
                     ecb.SetComponent(actionEntity, actionData);
+
+                    animationParameters.SetBoolParameter(isWalkingParam, false);
                 }
 
                 break;
@@ -86,6 +101,7 @@ public partial struct MoveToActionSystem : ISystem
     }
 
     private void ProcessActionSequenceAction(Entity actionEntity, ref AgentAction actionData,
+        AnimatorParametersAspect animationParameters,
         ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
     {
         if (actionData.State != AgentActionState.Running)
@@ -98,46 +114,13 @@ public partial struct MoveToActionSystem : ISystem
         var activeActionData = buffer[0];
         var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
 
-        if (runningActionData.Type != AgentActionType.MoveTo) 
+        if (runningActionData.Type != AgentActionType.MoveTo)
         {
             // Ignore if active action isn't a MoveTo action
             return;
         }
 
-        ProcessMoveToPosition(activeActionData.ActionEntity, ref runningActionData, ref agentBody, ref state, ecb);
+        ProcessMoveToPosition(activeActionData.ActionEntity, ref runningActionData, animationParameters, ref agentBody,
+            ref state, ecb);
     }
 }
-
-/* TODO WORK IN PROGRESS
- 
-[UpdateInGroup(typeof(ActionProcessingSystemGroup))]
-public partial struct ParallelMoveToActionSystem : ISystem
-{
-    private EntityQuery actionQuery;
-    private ComponentLookup<AgentBody> agentBodyLookup;
-    
-    public void OnCreate(ref SystemState state)
-    {
-        actionQuery = state.GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[]
-            {
-                ComponentType.ReadWrite<AgentAction>(),
-                ComponentType.ReadOnly<AgentActiveActionType>(),
-                ComponentType.ReadOnly<AgentBody>(),
-                ComponentType.ReadOnly<AgentMoveToPositionAction>(),
-            },
-        });
-
-        agentBodyLookup = state.GetComponentLookup<AgentBody>(false);
-    }
-
-    public void OnDestroy(ref SystemState state)
-    {
-    }
-
-    public void OnUpdate(ref SystemState state)
-    {
-    }
-}
-*/
