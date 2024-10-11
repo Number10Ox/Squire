@@ -55,11 +55,10 @@ public partial struct HeroAISystem : ISystem
                 var heroTransform = AgentTransformLookup[entity];
                 float distanceFromSquire = math.distance(heroTransform.Position, squireTransform.Position);
                 float normalizedDistanceFromSquire = math.saturate(distanceFromSquire / heroAI.MaxDistanceFromSquire);
-                float normalizedIdlingComfort = normalizedDistanceFromSquire;
 
                 ReasonerUtilities.SetConsiderationInput(ref heroAI.DistanceFromSquireRef, normalizedDistanceFromSquire,
                     in reasoner, considerationsBuffer, considerationInputsBuffer);
-                ReasonerUtilities.SetConsiderationInput(ref heroAI.IdlingComfortRef, normalizedIdlingComfort,
+                ReasonerUtilities.SetConsiderationInput(ref heroAI.IdlingComfortRef, normalizedDistanceFromSquire,
                     in reasoner, considerationsBuffer, considerationInputsBuffer);
 
                 ActionSelectors.HighestScoring actionSelector = new ActionSelectors.HighestScoring();
