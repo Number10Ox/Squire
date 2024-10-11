@@ -127,19 +127,19 @@ MonoBehaviour:
   DistanceFromSquire:
     ParametricCurveAuthoring:
       ParametricCurve:
-        CurveType: 3
-        Shape: 2
-        Slope: 0.002
+        CurveType: 2
+        Shape: 0
+        Slope: 0.2
         VerticalShift: 0
         HorizontalShift: 0
         MinY: 0
-        MaxY: 1
+        MaxY: 0.2
       GraphProperties:
         GraphHeight: 200
         GraphWidth: 200
         BackgroundColor: {r: 0.12, g: 0.12, b: 0.12, a: 1}
         Min: {x: 0, y: 0}
-        Max: {x: 10, y: 0.2}
+        Max: {x: 1, y: 0.2}
         CurveColor: {r: 0, g: 0.6, b: 0.25, a: 1}
         CurveLineWidth: 2
         MainAxisColor: {r: 1, g: 1, b: 1, a: 1}
@@ -239,19 +239,19 @@ MonoBehaviour:
   IdlingComfort:
     ParametricCurveAuthoring:
       ParametricCurve:
-        CurveType: 3
-        Shape: 2
-        Slope: 0.002
-        VerticalShift: 0
+        CurveType: 2
+        Shape: 0
+        Slope: -0.2
+        VerticalShift: 0.2
         HorizontalShift: 0
         MinY: 0
-        MaxY: 1
+        MaxY: 0.2
       GraphProperties:
         GraphHeight: 200
         GraphWidth: 200
         BackgroundColor: {r: 0.12, g: 0.12, b: 0.12, a: 1}
-        Min: {x: 0, y: 0.2}
-        Max: {x: 10, y: 0}
+        Min: {x: 0, y: 0}
+        Max: {x: 1, y: 0.2}
         CurveColor: {r: 0, g: 0.6, b: 0.25, a: 1}
         CurveLineWidth: 2
         MainAxisColor: {r: 1, g: 1, b: 1, a: 1}

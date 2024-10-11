@@ -36,9 +36,9 @@ public class HeroAuthoring : MonoBehaviour
                 ReasonerUtilities.AddAction(new ActionDefinition((int)HeroAIAction.ReturnToSquire), true, ref reasoner,
                     actionsBuffer, out heroAI.ReturnToSquireRef);
 
-                ReasonerUtilities.AddConsideration(considerationSetComponent.IdlingComfort, ref heroAI.IdleRef, true,
-                    ref reasoner, actionsBuffer, considerationsBuffer, considerationInputsBuffer,
-                    out heroAI.IdlingComfortRef);
+                ReasonerUtilities.AddConsideration(considerationSetComponent.IdlingComfort, 
+                    ref heroAI.IdleRef, true, ref reasoner, actionsBuffer, considerationsBuffer, 
+                    considerationInputsBuffer, out heroAI.IdlingComfortRef);
                 ReasonerUtilities.AddConsideration(considerationSetComponent.DistanceFromSquire,
                     ref heroAI.ReturnToSquireRef, true, ref reasoner, actionsBuffer, considerationsBuffer,
                     considerationInputsBuffer, out heroAI.DistanceFromSquireRef);
