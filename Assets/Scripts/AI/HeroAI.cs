@@ -12,4 +12,10 @@ public struct HeroAI : IComponentData
     // Store references to our consideration instances
     public ConsiderationReference IdlingComfortRef;
     public ConsiderationReference DistanceFromSquireRef;
+    
+    public float DecisionInertia;
+    public float MaxDistanceFromSquire;
+    
+    public float TimeSinceMadeDecision;
+    public bool ShouldUpdateReasoner;
 }
