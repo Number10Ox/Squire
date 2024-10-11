@@ -39,9 +39,6 @@ public partial struct MoveToActionSystem : ISystem
                 ProcessMoveToActions(activeActions, animationParameters, ref agentBody.ValueRW, ref state, ecb);
             }
         }
-
-        // ecb.Playback(state.EntityManager);
-        // ecb.Dispose();
     }
 
     private void ProcessMoveToActions(
