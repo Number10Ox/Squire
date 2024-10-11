@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MotionType: 3
-  Speed: 3.5
+  Speed: 10
   Acceleration: 8
   AngularSpeed: 120
   StoppingDistance: 0.1

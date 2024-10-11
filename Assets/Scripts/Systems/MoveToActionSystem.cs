@@ -2,7 +2,6 @@ using Unity.Entities;
 using ProjectDawn.Navigation;
 using Rukhanka;
 using Unity.Burst;
-using UnityEngine;
 
 [UpdateInGroup(typeof(ActionProcessingSystemGroup))]
 public partial struct MoveToActionSystem : ISystem
