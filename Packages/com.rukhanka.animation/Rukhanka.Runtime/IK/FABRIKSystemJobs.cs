@@ -39,7 +39,7 @@ partial struct FABRIKJob : IJobEntity
         var rigDef = rigDefLookup[aer.animatorEntity];
         using var animStream = AnimationStream.Create(runtimeData, aer.animatorEntity, rigDef);
 
-        var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target, aer.animatorEntity, animStream.GetWorldPose(0), localTransformLookup, parentLookup);
+        var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target, aer.animatorEntity, animStream.GetWorldPose(0), runtimeData, localTransformLookup, parentLookup, animatorEntityRefLookup);
         var targetEntityRigRelativePosition = targetEntityRigRootRelativePose.pos;
 
         var ikData = PrepareIKData(ikc, rigDef, aer);

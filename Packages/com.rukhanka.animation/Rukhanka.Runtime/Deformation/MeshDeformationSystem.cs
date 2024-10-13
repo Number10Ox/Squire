@@ -353,7 +353,9 @@ public partial class MeshDeformationSystem: SystemBase
 		fillInitialMeshDataKernel = new ComputeKernel(meshDeformationSystemCS, "CopyInitialMeshData");
 		fillInitialMeshBlendShapesKernel = new ComputeKernel(meshDeformationSystemCS, "CopyInitialMeshBlendShapes");
 		createPerVertexDeformationWorkloadKernel = new ComputeKernel(meshDeformationSystemCS, "CreatePerVertexDeformationWorkload");
-		skinningKernel = new ComputeKernel(meshDeformationSystemCS, "Skinning");
+		//	Pick skinning kernel depending on hardware capabilities (max workgroup size)
+		var workGroupSizeX = SystemInfo.maxComputeWorkGroupSizeX;
+		skinningKernel = new ComputeKernel(meshDeformationSystemCS, $"Skinning_{workGroupSizeX}");
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -428,7 +430,7 @@ public partial class MeshDeformationSystem: SystemBase
 		cs.SetBuffer(fillInitialMeshBlendShapesKernel, ShaderID_outInitialMeshBlendShapesData, meshBlendShapesDataCB);
 		
 		var deformedVertexSize = UnsafeUtility.SizeOf<DeformedVertex>();
-		ComputeBufferTools.Clear(meshBlendShapesDataCB, smd.baseBlendShapeIndex * deformedVertexSize, smd.vertexCount * deformedVertexSize * mesh.blendShapeCount);
+		ComputeBufferTools.Clear(meshBlendShapesDataCB, (uint)(smd.baseBlendShapeIndex * deformedVertexSize), (uint)(smd.vertexCount * deformedVertexSize * mesh.blendShapeCount));
 		
 		for (var i = 0; i < mesh.blendShapeCount; ++i)
 		{

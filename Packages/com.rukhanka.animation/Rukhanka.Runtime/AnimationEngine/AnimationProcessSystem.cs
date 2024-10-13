@@ -18,7 +18,6 @@ public partial struct AnimationProcessSystem: ISystem
 {
 	EntityQuery animatedObjectQuery;
 
-	NativeParallelHashMap<Hash128, BlobAssetReference<BoneRemapTableBlob>> rigToSkinnedMeshRemapTables;
 	NativeList<int3> bonePosesOffsetsArr;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +41,6 @@ public partial struct AnimationProcessSystem: ISystem
 	[BurstCompile]
 	public void OnDestroy(ref SystemState ss)
 	{
-		rigToSkinnedMeshRemapTables.Dispose();
 		bonePosesOffsetsArr.Dispose();
 
 		if (SystemAPI.TryGetSingleton<RuntimeAnimationData>(out var rad))

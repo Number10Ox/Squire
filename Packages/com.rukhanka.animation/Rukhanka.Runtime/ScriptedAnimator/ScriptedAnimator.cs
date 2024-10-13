@@ -156,10 +156,24 @@ public static partial class ScriptedAnimator
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public static int GetStateIndexInControllerLayer(BlobAssetReference<ControllerBlob> cb, int layerIndex, uint stateHash)
+    {
+        ref var layerBlob = ref cb.Value.layers[layerIndex];
+        for (var i = 0; i < layerBlob.states.Length; ++i)
+        {
+            ref var stateBlob = ref layerBlob.states[i];
+            if (stateBlob.hash == stateHash)
+                return i;
+        }
+        return -1;
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static void PlayAnimatorState
     (
         ref DynamicBuffer<AnimationToProcessComponent> atps,
-        in DynamicBuffer<AnimatorControllerParameterComponent> animatorControllerParameters,
+        in NativeArray<AnimatorControllerParameterComponent> animatorControllerParameters,
         in BlobAssetReference<ControllerBlob> controllerBlob,
         in BlobAssetReference<ControllerAnimationsBlob> animationsBlob,
         in BlobDatabaseSingleton blobDatabase,
@@ -189,7 +203,7 @@ public static partial class ScriptedAnimator
         (
             ref atps,
             ref sb.motion,
-            animatorControllerParameters.AsNativeArray(),
+            animatorControllerParameters,
             animationsBlob,
             blobDatabase,
             normalizedTime,

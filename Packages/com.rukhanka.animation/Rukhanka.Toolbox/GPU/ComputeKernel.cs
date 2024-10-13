@@ -9,9 +9,9 @@ namespace Rukhanka.Toolbox
 {
 public class ComputeKernel
 {
-    readonly float3 numThreadGroups;
-    readonly int kernelIndex;
-    readonly string kernelName;
+    public readonly uint3 numThreadGroups;
+    public readonly int kernelIndex;
+    public readonly string kernelName;
     public readonly ComputeShader computeShader;
         
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,10 +20,7 @@ public class ComputeKernel
     {
         kernelIndex = cs.FindKernel(kernelName);
         this.kernelName = kernelName;
-        cs.GetKernelThreadGroupSizes(kernelIndex, out var numThreadsXI, out var numThreadsYI, out var numThreadsZI);
-        numThreadGroups.x = numThreadsXI;
-        numThreadGroups.y = numThreadsYI;
-        numThreadGroups.z = numThreadsZI;
+        cs.GetKernelThreadGroupSizes(kernelIndex, out numThreadGroups.x, out numThreadGroups.y, out numThreadGroups.z);
         Assert.IsTrue(numThreadGroups.x <= SystemInfo.maxComputeWorkGroupSizeX, $"Kernel '{kernelName}({kernelIndex})' of shader '{cs.name}' work group size X '{numThreadGroups.x}' exceeds hardware limit of '{SystemInfo.maxComputeWorkGroupSizeX}'");
         Assert.IsTrue(numThreadGroups.y <= SystemInfo.maxComputeWorkGroupSizeY, $"Kernel '{kernelName}({kernelIndex})' of shader '{cs.name}' work group size Y '{numThreadGroups.y}' exceeds hardware limit of '{SystemInfo.maxComputeWorkGroupSizeY}'");
         Assert.IsTrue(numThreadGroups.z <= SystemInfo.maxComputeWorkGroupSizeZ, $"Kernel '{kernelName}({kernelIndex})' of shader '{cs.name}' work group size Z '{numThreadGroups.z}' exceeds hardware limit of '{SystemInfo.maxComputeWorkGroupSizeZ}'");
@@ -35,7 +32,7 @@ public class ComputeKernel
     public void Dispatch(int workGroupSizeX, int workgroupSizeY, int workgroupSizeZ)
     {
         var workGroupSize = new int3(workGroupSizeX, workgroupSizeY, workgroupSizeZ);
-        var numDispatches = (int3)math.ceil(workGroupSize / numThreadGroups);
+        var numDispatches = (int3)math.ceil(workGroupSize / (float3)numThreadGroups);
     #if UNITY_ASSERTIONS
         if (ValidateDispatch(workGroupSizeX, workgroupSizeY, workgroupSizeZ))
     #endif
@@ -47,7 +44,7 @@ public class ComputeKernel
     public bool ValidateDispatch(int workGroupSizeX, int workgroupSizeY, int workgroupSizeZ)
     {
         var workGroupSize = new int3(workGroupSizeX, workgroupSizeY, workgroupSizeZ);
-        var numDispatches = (int3)math.ceil(workGroupSize / numThreadGroups);
+        var numDispatches = (int3)math.ceil(workGroupSize / (float3)numThreadGroups);
         int maxDispatchesCount = 0xffff;
         if (numDispatches.x > maxDispatchesCount)
             Debug.LogError($"Kernel '{kernelName}({kernelIndex})' of shader '{computeShader.name}' dispatch thread group count X '{numDispatches.x}' exceeds hardware limit of '{maxDispatchesCount}'. Try to increase kernel work group size.");

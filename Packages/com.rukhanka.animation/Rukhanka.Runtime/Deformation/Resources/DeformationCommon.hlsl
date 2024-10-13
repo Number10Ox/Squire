@@ -39,16 +39,17 @@ struct SourceSkinnedMeshVertex
 
 /////////////////////////////////////////////////////////////////////////////////
 
-#define DEFORMED_VERTEX_SIZE_IN_BYTES 36
 struct DeformedVertex
 {
     float3 position;
     float3 normal;
     float3 tangent;
 
+    static const int size = 3 * 3 * 4;
+
     static DeformedVertex ReadFromRawBuffer(ByteAddressBuffer inBuffer, uint index)
     {
-        uint byteOffset = index * DEFORMED_VERTEX_SIZE_IN_BYTES;
+        uint byteOffset = index * size;
         uint4 v0 = inBuffer.Load4(byteOffset + 0);
         uint4 v1 = inBuffer.Load4(byteOffset + 16);
         uint  v2 = inBuffer.Load(byteOffset + 32);
@@ -108,8 +109,9 @@ struct InputBlendShapeVertex
     float3 positionDelta;
     float3 normalDelta;
     float3 tangentDelta;
+
+    static const int size = (1 + 3 * 3) * 4;
 };
-#define INPUT_BLEND_SHAPE_VERTEX_SIZE_IN_BYTES 40
 
 /////////////////////////////////////////////////////////////////////////////////
 

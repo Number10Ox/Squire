@@ -1,5 +1,6 @@
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Deformations;
 using Unity.Entities;
 using Unity.Jobs;
@@ -20,6 +21,7 @@ partial struct AnimationApplicationSystem: ISystem
 		boneObjectEntitiesNoParentQuery;
 
 	NativeParallelHashMap<Hash128, BlobAssetReference<BoneRemapTableBlob>> rigToSkinnedMeshRemapTables;
+	int newRemapTablesCounter;
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -86,24 +88,44 @@ partial struct AnimationApplicationSystem: ISystem
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	JobHandle FillRigToSkinBonesRemapTableCache(ref SystemState ss, JobHandle dependsOn)
+	unsafe JobHandle FillRigToSkinBonesRemapTableCache(ref SystemState ss, JobHandle dependsOn)
 	{
 		var rigDefinitionComponentLookup = SystemAPI.GetComponentLookup<RigDefinitionComponent>(true);
 
 	#if RUKHANKA_DEBUG_INFO
 		SystemAPI.TryGetSingleton<DebugConfigurationComponent>(out var dc);
 	#endif
-
-		var j = new FillRigToSkinBonesRemapTableCacheJob()
+		newRemapTablesCounter = 0;
+		
+		//	Count new remap tables count
+		var countNumberOfNewRemapTablesJob = new CountNumberOfNewRemapTablesJob()
+		{
+			rigDefinitionArr = rigDefinitionComponentLookup,
+			numberOfNewRemapTables = new UnsafeAtomicCounter32(UnsafeUtility.AddressOf(ref newRemapTablesCounter)),
+			rigToSkinnedMeshRemapTables = rigToSkinnedMeshRemapTables
+		};
+		var countNumberOfNewRemapTablesJH = countNumberOfNewRemapTablesJob.ScheduleParallel(dependsOn);
+		
+		//	Reserve necessary space in remap table cache
+		var increaseRigRemapTableCapacityJob = new IncreaseRigRemapTableCapacityJob()
+		{
+			numberOfNewRemapTables = (int*)UnsafeUtility.AddressOf(ref newRemapTablesCounter),
+			rigToSkinnedMeshRemapTables = rigToSkinnedMeshRemapTables
+		};
+		var	increaseRigRemapTableCapacityJH = increaseRigRemapTableCapacityJob.Schedule(countNumberOfNewRemapTablesJH);
+		
+		//	Fill table cache with new tables
+		var fillRigToSkinBonesRemapTableCacheJob = new FillRigToSkinBonesRemapTableCacheJob()
 		{
 			rigDefinitionArr = rigDefinitionComponentLookup,
 			rigToSkinnedMeshRemapTables = rigToSkinnedMeshRemapTables.AsParallelWriter(),
+			newRemapTablesCounter = (int*)UnsafeUtility.AddressOf(ref newRemapTablesCounter),
 		#if RUKHANKA_DEBUG_INFO
 			doLogging = dc.logAnimationCalculationProcesses
 		#endif
 		};
 
-		var rv = j.ScheduleParallel(dependsOn);
+		var rv = fillRigToSkinBonesRemapTableCacheJob.ScheduleParallelByRef(increaseRigRemapTableCapacityJH);
 		return rv;
 	}
 
