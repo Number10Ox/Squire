@@ -277,6 +277,8 @@ GameObject:
   - component: {fileID: -81897991515225059}
   - component: {fileID: 436555051289064417}
   - component: {fileID: 3806388400308072358}
+  - component: {fileID: 3750674061136428818}
+  - component: {fileID: 8565841305899661395}
   m_Layer: 0
   m_Name: PrototypeSquire
   m_TagString: Untagged
@@ -617,6 +619,42 @@ MonoBehaviour:
   boneStrippingMask: {fileID: 0}
   hasAnimationEvents: 0
   hasAnimatorControllerEvents: 1
+--- !u!114 &3750674061136428818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716218293748773644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16549610bfe4458aa9389201d072bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8565841305899661395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716218293748773644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultGhostMode: 0
+  SupportedGhostModes: 3
+  OptimizationMode: 0
+  Importance: 1
+  prefabId: 
+  HasOwner: 0
+  SupportAutoCommandTarget: 1
+  TrackInterpolationDelay: 0
+  GhostGroup: 0
+  UsePreSerialization: 0
+  RollbackPredictedSpawnedGhostState: 0
+  RollbackPredictionOnStructuralChanges: 1
 --- !u!1 &1238515388206877413
 GameObject:
   m_ObjectHideFlags: 0

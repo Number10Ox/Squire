@@ -1779,6 +1779,7 @@ GameObject:
   - component: {fileID: 2877268975458746155}
   - component: {fileID: 1037329235635868003}
   - component: {fileID: 2946935455843955904}
+  - component: {fileID: -5371320547842163982}
   m_Layer: 0
   m_Name: PrototypeHero
   m_TagString: Untagged
@@ -2153,6 +2154,30 @@ MonoBehaviour:
   ConsiderationSetData: {fileID: 11400000, guid: 321b9099482f94690a57cc39a775a170, type: 2}
   DecisionInertia: 0.5
   MaxDistanceFromSquire: 100
+--- !u!114 &-5371320547842163982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415344935369974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultGhostMode: 0
+  SupportedGhostModes: 3
+  OptimizationMode: 0
+  Importance: 1
+  prefabId: 273cb9626c33344859218897fd8a7ab2
+  HasOwner: 0
+  SupportAutoCommandTarget: 1
+  TrackInterpolationDelay: 0
+  GhostGroup: 0
+  UsePreSerialization: 0
+  RollbackPredictedSpawnedGhostState: 0
+  RollbackPredictionOnStructuralChanges: 1
 --- !u!1 &1429610698233342
 GameObject:
   m_ObjectHideFlags: 0
