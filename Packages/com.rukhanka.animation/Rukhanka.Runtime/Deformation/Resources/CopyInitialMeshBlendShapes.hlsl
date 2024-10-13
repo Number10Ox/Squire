@@ -14,7 +14,7 @@ uint outBlendShapeVertexOffset;
 
 InputBlendShapeVertex ReadBlendShapeVertexDelta(uint vertexID)
 {
-    uint vertexByteOffset = vertexID * INPUT_BLEND_SHAPE_VERTEX_SIZE_IN_BYTES;
+    uint vertexByteOffset = vertexID * InputBlendShapeVertex::size;
     uint4 v0 = meshBlendShapesBuffer.Load4(vertexByteOffset + 0);
     uint4 v1 = meshBlendShapesBuffer.Load4(vertexByteOffset + 16);
     uint2 v2 = meshBlendShapesBuffer.Load2(vertexByteOffset + 32);
@@ -43,7 +43,7 @@ void CopyInitialMeshBlendShapes(uint tid: SV_DispatchThreadID)
     uint o2 = asuint(v.tangentDelta.z);
 
     uint outVertexOffset = v.meshVertexIndex + outBlendShapeVertexOffset;
-    uint outVertexByteOffset = outVertexOffset * DEFORMED_VERTEX_SIZE_IN_BYTES;
+    uint outVertexByteOffset = outVertexOffset * DeformedVertex::size;
     outInitialMeshBlendShapesData.Store4(outVertexByteOffset + 0, o0);
     outInitialMeshBlendShapesData.Store4(outVertexByteOffset + 16, o1);
     outInitialMeshBlendShapesData.Store(outVertexByteOffset + 32, o2);

@@ -3,10 +3,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////
 
-#define SKINNING_KERNEL_NUM_THREAD_GROUPS_X 1024
-
-/////////////////////////////////////////////////////////////////////////////////
-
 ByteAddressBuffer framePerVertexWorkload;
 //  SourceSkinnedMeshVertex
 ByteAddressBuffer inputMeshVertexData;
@@ -80,8 +76,7 @@ DeformedVertex ApplySkinMatrices
 
 /////////////////////////////////////////////////////////////////////////////////
 
-[numthreads(SKINNING_KERNEL_NUM_THREAD_GROUPS_X, 1, 1)]
-void Skinning(uint tid: SV_DispatchThreadID)
+void Skinning(uint tid)
 {
     if (tid >= totalSkinnedVerticesCount)
     {
@@ -103,11 +98,21 @@ void Skinning(uint tid: SV_DispatchThreadID)
     rv.tangent = smv.tangent;
     rv.normal = smv.normal;
 
-    rv = ApplySkinMatrices(rv, vertexBoneWeightsOffset, vertexBoneWeightsCount, mfd);
     rv = ApplyBlendShapes(rv, meshVertexIndex, mfd);
+    rv = ApplySkinMatrices(rv, vertexBoneWeightsOffset, vertexBoneWeightsCount, mfd);
 
     outDeformedVertices[tid] = rv;
-    
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+[numthreads(128, 1, 1)]
+void Skinning_128(uint tid: SV_DispatchThreadID) { Skinning(tid); }
+[numthreads(256, 1, 1)]
+void Skinning_256(uint tid: SV_DispatchThreadID) { Skinning(tid); }
+[numthreads(512, 1, 1)]
+void Skinning_512(uint tid: SV_DispatchThreadID) { Skinning(tid); }
+[numthreads(1024, 1, 1)]
+void Skinning_1024(uint tid: SV_DispatchThreadID) { Skinning(tid); }
 
 #endif // SKINNING_HLSL_

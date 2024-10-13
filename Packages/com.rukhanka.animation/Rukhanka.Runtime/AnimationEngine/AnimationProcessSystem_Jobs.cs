@@ -86,19 +86,20 @@ public struct ComputeBoneAnimationJob: IJobParallelForDefer
 				ModifyBoneHashForRootMotion(ref boneNameHash);
 			
 			var animationBoneIndex = GetBoneIndexByHash(ref atp.animation.Value, boneNameHash);
+			var isAnimationAdditive = atp.blendMode == AnimationBlendingMode.Additive;
 
 			if (Hint.Likely(animationBoneIndex >= 0))
 			{
 				// Loop Pose calculus for all bones except root motion
 				var calculateLoopPose = atp.animation.Value.loopPoseBlend && rigBoneIndex != 0;
-				var additiveReferencePoseTime = math.select(-1.0f, atp.animation.Value.additiveReferencePoseTime, atp.blendMode == AnimationBlendingMode.Additive);
+				var additiveReferencePoseTime = math.select(-1.0f, atp.animation.Value.additiveReferencePoseTime, isAnimationAdditive);
 				
 				ref var boneAnimation = ref atp.animation.Value.bones[animationBoneIndex];
 				var (bonePose, flags) = SampleAnimation(ref boneAnimation, animTime, atp, calculateLoopPose, additiveReferencePoseTime, humanBoneInfo);
 				SetTransformFlags(flags, transformFlags, rigBoneIndex);
 
 				float3 modWeight = flags * atp.weight * layerWeight;
-				totalWeights += modWeight;
+				totalWeights += math.select(modWeight, 0, isAnimationAdditive);
 
 				if (rootMotionDeltaBone)
 					ProcessRootMotionDeltas(ref bonePose, ref boneAnimation, atp, curRootMotionState, ref newRootMotionState);

@@ -40,7 +40,7 @@ public partial struct TwoBoneIKSystem: ISystem
             var rigDef = rigDefLookup[aer.animatorEntity];
             using var animStream = AnimationStream.Create(runtimeData, aer.animatorEntity, rigDef);
 
-            var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target, aer.animatorEntity, animStream.GetWorldPose(0), localTransformLookup, parentLookup);
+            var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target,aer.animatorEntity, animStream.GetWorldPose(0), runtimeData, localTransformLookup, parentLookup, animatorEntityRefLookup);
 
             var midEntityRef = animatorEntityRefLookup[ikc.mid];
             var tipEntityRef = animatorEntityRefLookup[ikc.tip];
@@ -88,7 +88,7 @@ public partial struct TwoBoneIKSystem: ISystem
             float rootToTipLenSqr = math.lengthsq(rootToTipVec);
             if (ikc.midBentHint != Entity.Null && rootToTipLenSqr > 0)
             {
-                var hintRigRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.midBentHint, aer.animatorEntity, animStream.GetWorldPose(0), localTransformLookup, parentLookup);
+                var hintRigRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.midBentHint, aer.animatorEntity, animStream.GetWorldPose(0), runtimeData, localTransformLookup, parentLookup, animatorEntityRefLookup);
             
                 var tipPose = animStream.GetWorldPose(tipEntityRef.boneIndexInAnimationRig);
                 var midPose = animStream.GetWorldPose(midEntityRef.boneIndexInAnimationRig);

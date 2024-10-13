@@ -37,7 +37,7 @@ public partial struct AimIKSystem: ISystem
             var rigDef = rigDefLookup[aer.animatorEntity];
             using var animStream = AnimationStream.Create(runtimeData, aer.animatorEntity, rigDef);
             
-            var targetEntityRigRelativePose = IKCommon.GetRigRelativeEntityPose(aik.target, aer.animatorEntity, animStream.GetWorldPose(0), localTransformLookup, parentLookup);
+            var targetEntityRigRelativePose = IKCommon.GetRigRelativeEntityPose(aik.target, aer.animatorEntity, animStream.GetWorldPose(0), runtimeData, localTransformLookup, parentLookup, boneEntityRefLookup);
 
             for (var i = 0; i < aimedBones.Length; ++i)
             {

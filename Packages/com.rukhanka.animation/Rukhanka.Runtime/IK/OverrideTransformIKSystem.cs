@@ -23,16 +23,20 @@ public partial struct OverrideTransformIKSystem: ISystem
         public ComponentLookup<LocalTransform> localTransformLookup;
         [ReadOnly]
         public ComponentLookup<Parent> parentLookup;
+        [ReadOnly]
+        public ComponentLookup<AnimatorEntityRefComponent> animatorEntityRefLookup;
         
+/////////////////////////////////////////////////////////////////////////////////
+
         [NativeDisableContainerSafetyRestriction]
         public RuntimeAnimationData runtimeData;
     
-        void Execute(OverrideTransformIKComponent ikc, AnimatorEntityRefComponent aer)
+        void Execute(OverrideTransformIKComponent ikc, in AnimatorEntityRefComponent aer)
         {
             var rigDef = rigDefLookup[aer.animatorEntity];
             using var animStream = AnimationStream.Create(runtimeData, aer.animatorEntity, rigDef);
 
-            var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target, aer.animatorEntity, animStream.GetWorldPose(0), localTransformLookup, parentLookup);
+            var targetEntityRigRootRelativePose = IKCommon.GetRigRelativeEntityPose(ikc.target, aer.animatorEntity, animStream.GetWorldPose(0), runtimeData, localTransformLookup, parentLookup, animatorEntityRefLookup);
             var bonePose = animStream.GetWorldPose(aer.boneIndexInAnimationRig);
 
             targetEntityRigRootRelativePose.pos = math.lerp(bonePose.pos, targetEntityRigRootRelativePose.pos, ikc.positionWeight);
@@ -62,6 +66,7 @@ public partial struct OverrideTransformIKSystem: ISystem
     {
         var rigDefLookup = SystemAPI.GetComponentLookup<RigDefinitionComponent>(true);
         var localTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true);
+        var animatorEntityRefLookup = SystemAPI.GetComponentLookup<AnimatorEntityRefComponent>(true);
         var parentLookup = SystemAPI.GetComponentLookup<Parent>(true);
         ref var runtimeData = ref SystemAPI.GetSingletonRW<RuntimeAnimationData>().ValueRW;
         
@@ -70,7 +75,8 @@ public partial struct OverrideTransformIKSystem: ISystem
             rigDefLookup = rigDefLookup,
             runtimeData = runtimeData,
             localTransformLookup = localTransformLookup,
-            parentLookup = parentLookup
+            parentLookup = parentLookup,
+            animatorEntityRefLookup = animatorEntityRefLookup
         };
 
         ikJob.ScheduleParallel();

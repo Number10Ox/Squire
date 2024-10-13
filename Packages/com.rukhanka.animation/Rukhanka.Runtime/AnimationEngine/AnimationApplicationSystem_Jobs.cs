@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Deformations;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
@@ -140,11 +141,56 @@ partial struct PropagateBoneTransformToEntityTRSJob: IJobEntity
 //=================================================================================================================//
 
 [BurstCompile]
-partial struct FillRigToSkinBonesRemapTableCacheJob: IJobEntity
+partial struct CountNumberOfNewRemapTablesJob: IJobEntity
+{
+	[ReadOnly]
+	public ComponentLookup<RigDefinitionComponent> rigDefinitionArr;
+	[ReadOnly]
+	public NativeParallelHashMap<Hash128, BlobAssetReference<BoneRemapTableBlob>> rigToSkinnedMeshRemapTables;
+	
+	[NativeDisableUnsafePtrRestriction]
+	public UnsafeAtomicCounter32 numberOfNewRemapTables;
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void Execute(in AnimatedSkinnedMeshComponent asmc)
+	{
+		if (!rigDefinitionArr.TryGetComponent(asmc.animatedRigEntity, out var rigDef))
+			return;
+		
+		var h = ApplyAnimationToSkinnedMeshJob.CalculateBoneRemapTableHash(asmc.smrInfoBlob, rigDef.rigBlob);
+		if (!rigToSkinnedMeshRemapTables.ContainsKey(h))
+			numberOfNewRemapTables.Add(1);
+	}
+}
+
+//=================================================================================================================//
+
+[BurstCompile]
+unsafe struct IncreaseRigRemapTableCapacityJob: IJob
+{
+	public NativeParallelHashMap<Hash128, BlobAssetReference<BoneRemapTableBlob>> rigToSkinnedMeshRemapTables;
+	[ReadOnly, NativeDisableUnsafePtrRestriction]
+	public int *numberOfNewRemapTables;
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void Execute()
+	{
+		rigToSkinnedMeshRemapTables.Capacity += *numberOfNewRemapTables;
+	}
+}
+
+//=================================================================================================================//
+
+[BurstCompile]
+unsafe partial struct FillRigToSkinBonesRemapTableCacheJob: IJobEntity
 {
 	[ReadOnly]
 	public ComponentLookup<RigDefinitionComponent> rigDefinitionArr;
 	public NativeParallelHashMap<Hash128, BlobAssetReference<BoneRemapTableBlob>>.ParallelWriter rigToSkinnedMeshRemapTables;
+	[ReadOnly, NativeDisableUnsafePtrRestriction]
+	public int *newRemapTablesCounter;
 
 #if RUKHANKA_DEBUG_INFO
 	public bool doLogging;
@@ -154,7 +200,7 @@ partial struct FillRigToSkinBonesRemapTableCacheJob: IJobEntity
 
 	void Execute(in AnimatedSkinnedMeshComponent asmc)
 	{
-		if (!rigDefinitionArr.TryGetComponent(asmc.animatedRigEntity, out var rigDef))
+		if (*newRemapTablesCounter == 0 || !rigDefinitionArr.TryGetComponent(asmc.animatedRigEntity, out var rigDef))
 			return;
 		
 		MakeRigToSkinnedMeshRemapTable(asmc, rigDef);
@@ -162,7 +208,7 @@ partial struct FillRigToSkinBonesRemapTableCacheJob: IJobEntity
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	unsafe void MakeRigToSkinnedMeshRemapTable(in AnimatedSkinnedMeshComponent sm, in RigDefinitionComponent rigDef)
+	void MakeRigToSkinnedMeshRemapTable(in AnimatedSkinnedMeshComponent sm, in RigDefinitionComponent rigDef)
 	{
 		//	Try cache first
 		var h = ApplyAnimationToSkinnedMeshJob.CalculateBoneRemapTableHash(sm.smrInfoBlob, rigDef.rigBlob);

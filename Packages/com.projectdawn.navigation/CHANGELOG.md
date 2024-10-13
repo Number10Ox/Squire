@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [4.0.7] - 2024-10-05
+- Moved gizmos buffer from editor for easier debuging, still works only in editor
+- Fixed rare exception: ArgumentException: Radius must be greater than zero
+- Fixed rare exception: InvalidOperationException: The ComponentTypeHandle<Pathfinding.ECS.ManagedState>
+- Fixed agent editor exception in prefab mode
+
 ## [4.0.6] - 2024-07-25
 - Changed spatial clear to parallel that improves performance drastically
 - Fixed seeking on wide navmesh links

@@ -12,6 +12,7 @@ public static class ComputeBufferTools
     static ComputeShader copyCS;
     static ComputeKernel copyKernel;
     static ComputeKernel clearKernel;
+    
     static readonly int ShaderID_copyBufferElementsCount = Shader.PropertyToID("copyBufferElementsCount");
     static readonly int ShaderID_srcBuf = Shader.PropertyToID("srcBuf");
     static readonly int ShaderID_dstBuf = Shader.PropertyToID("dstBuf");
@@ -59,12 +60,21 @@ public static class ComputeBufferTools
             if (copyKernel == null)
                 copyKernel = new ComputeKernel(copyCS, "CopyBuffer");
             
-            copyCS.SetBuffer(copyKernel, ShaderID_srcBuf, src);
-            copyCS.SetBuffer(copyKernel, ShaderID_dstBuf, dst);
-            copyCS.SetInt(ShaderID_copyBufferElementsCount, (int)numIntsToCopy);
-            copyCS.SetInt(ShaderID_dstOffset, (int)dstOffsetInBytes);
-            copyCS.SetInt(ShaderID_srcOffset, (int)srcOffsetInBytes);
-            copyKernel.Dispatch((int)numIntsToCopy, 1, 1);
+            const uint maxDispatchCount = 0xffff;
+            uint maxCopyOpsForSingleDispatch = maxDispatchCount * copyKernel.numThreadGroups.x;
+            uint copyByteCounter = 0;
+            while (numIntsToCopy > 0)
+            {
+                var iterationNumCopyOps = math.min(maxCopyOpsForSingleDispatch, numIntsToCopy);
+                numIntsToCopy -= iterationNumCopyOps;
+                copyCS.SetBuffer(copyKernel, ShaderID_srcBuf, src);
+                copyCS.SetBuffer(copyKernel, ShaderID_dstBuf, dst);
+                copyCS.SetInt(ShaderID_copyBufferElementsCount, (int)iterationNumCopyOps);
+                copyCS.SetInt(ShaderID_dstOffset, (int)(dstOffsetInBytes + copyByteCounter));
+                copyCS.SetInt(ShaderID_srcOffset, (int)(srcOffsetInBytes + copyByteCounter));
+                copyKernel.Dispatch((int)iterationNumCopyOps, 1, 1);
+                copyByteCounter += iterationNumCopyOps * 4;
+            }
         }
     }
 
@@ -92,7 +102,7 @@ public static class ComputeBufferTools
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void Clear(GraphicsBuffer gb, int startByteOffset, int clearBytesCount, int clearValue = 0)
+    public static void Clear(GraphicsBuffer gb, uint startByteOffset, uint clearBytesCount, uint clearValue = 0)
     {
         Assert.IsNotNull(gb);
         Assert.IsTrue(clearBytesCount % 4 == 0);
@@ -108,12 +118,21 @@ public static class ComputeBufferTools
              if (clearKernel == null)
                  clearKernel = new ComputeKernel(copyCS, "ClearBuffer");
             
+            const uint maxDispatchCount = 0xffff;
+            uint maxClearOpsForSingleDispatch = maxDispatchCount * clearKernel.numThreadGroups.x;
             var numIntsToClear = clearBytesCount / 4;
-            copyCS.SetBuffer(clearKernel, ShaderID_dstBuf, gb);
-            copyCS.SetInt(ShaderID_copyBufferElementsCount, numIntsToClear);
-            copyCS.SetInt(ShaderID_dstOffset, startByteOffset);
-            copyCS.SetInt(ShaderID_clearValue, clearValue);
-            clearKernel.Dispatch(numIntsToClear, 1, 1);
+            uint clearByteCounter = 0;
+            while (numIntsToClear > 0)
+            {
+                var iterationNumClearOps = math.min(maxClearOpsForSingleDispatch, numIntsToClear);
+                numIntsToClear -= iterationNumClearOps;
+                copyCS.SetBuffer(clearKernel, ShaderID_dstBuf, gb);
+                copyCS.SetInt(ShaderID_copyBufferElementsCount, (int)iterationNumClearOps);
+                copyCS.SetInt(ShaderID_dstOffset, (int)(startByteOffset + clearByteCounter));
+                copyCS.SetInt(ShaderID_clearValue, (int)clearValue);
+                clearKernel.Dispatch((int)iterationNumClearOps, 1, 1);
+                clearByteCounter += iterationNumClearOps * 4;
+            }
         }
     }
 }
