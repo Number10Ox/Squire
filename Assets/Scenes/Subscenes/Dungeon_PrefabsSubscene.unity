@@ -734,6 +734,7 @@ GameObject:
   - component: {fileID: 810113819}
   - component: {fileID: 810113822}
   - component: {fileID: 810113821}
+  - component: {fileID: 810113824}
   - component: {fileID: 810113823}
   m_Layer: 3
   m_Name: Floor
@@ -953,6 +954,28 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
+--- !u!64 &810113824
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810113818}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &874008663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2122,8 +2145,8 @@ GameObject:
   - component: {fileID: 1221362791}
   - component: {fileID: 1221362790}
   - component: {fileID: 1221362789}
-  - component: {fileID: 1221362793}
   - component: {fileID: 1221362794}
+  - component: {fileID: 1221362793}
   m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
@@ -2193,7 +2216,7 @@ Transform:
   m_GameObject: {fileID: 1221362787}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1810.8602, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2638,6 +2661,7 @@ GameObject:
   - component: {fileID: 1332018224}
   - component: {fileID: 1332018227}
   - component: {fileID: 1332018226}
+  - component: {fileID: 1332018229}
   - component: {fileID: 1332018228}
   m_Layer: 3
   m_Name: Floor
@@ -2857,6 +2881,28 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
+--- !u!64 &1332018229
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332018223}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1340617472
 GameObject:
   m_ObjectHideFlags: 0
