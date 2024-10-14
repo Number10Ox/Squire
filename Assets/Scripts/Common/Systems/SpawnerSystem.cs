@@ -64,7 +64,12 @@ public partial struct SpawnSystem : ISystem
                         Rotation = prefabTransform.Rotation,
                         Scale = prefabTransform.Scale
                     });
-                    ecb.AddComponent(instance, new GhostOwner { NetworkId = request.ClientId });
+                    
+                    var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
+                    ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
+                    ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+                    ecb.SetComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
+                    
                     ecb.SetName(instance, request.PlayerId);
 
                     spawnedPositions.Add(testPosition);
