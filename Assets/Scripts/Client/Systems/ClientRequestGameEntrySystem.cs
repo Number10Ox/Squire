@@ -14,11 +14,12 @@ namespace TMG.NFE_Tutorial
             var builder = new EntityQueryBuilder(Allocator.Temp).WithAll<NetworkId>().WithNone<NetworkStreamInGame>();
             _pendingNetworkIdQuery = state.GetEntityQuery(builder);
             state.RequireForUpdate(_pendingNetworkIdQuery);
-            state.RequireForUpdate<GameJoinRequest>();
+            state.RequireForUpdate<PlayerJoinData>();
         }
 
         public void OnUpdate(ref SystemState state)
         {
+            var playerId = SystemAPI.GetSingleton<PlayerJoinData>().PlayerId;
             var ecb = new EntityCommandBuffer(Allocator.Temp);
             var pendingNetworkIds = _pendingNetworkIdQuery.ToEntityArray(Allocator.Temp);
 
@@ -26,7 +27,7 @@ namespace TMG.NFE_Tutorial
             {
                 ecb.AddComponent<NetworkStreamInGame>(pendingNetworkId);
                 var requestTeamEntity = ecb.CreateEntity();
-                ecb.AddComponent(requestTeamEntity, new GameJoinRequest { });
+                ecb.AddComponent(requestTeamEntity, new GameJoinRequest { PlayerId = playerId });
                 ecb.AddComponent(requestTeamEntity, new SendRpcCommandRequest { TargetConnection = pendingNetworkId });
             }
 
