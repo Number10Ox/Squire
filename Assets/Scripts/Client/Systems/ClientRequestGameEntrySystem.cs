@@ -27,7 +27,7 @@ namespace TMG.NFE_Tutorial
             {
                 ecb.AddComponent<NetworkStreamInGame>(pendingNetworkId);
                 var requestTeamEntity = ecb.CreateEntity();
-                ecb.AddComponent(requestTeamEntity, new GameJoinRequest { PlayerName = playerId });
+                ecb.AddComponent(requestTeamEntity, new GameJoinRequest { PlayerId = playerId });
                 ecb.AddComponent(requestTeamEntity, new SendRpcCommandRequest { TargetConnection = pendingNetworkId });
             }
 

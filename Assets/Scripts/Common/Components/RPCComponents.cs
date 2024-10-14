@@ -5,7 +5,7 @@ using UnityEngine;
 
 public struct GameJoinRequest : IRpcCommand
 {
-    public FixedString32Bytes PlayerName;
+    public FixedString32Bytes PlayerId;
 }
 
 public class GameJoinRequestAuthoring : MonoBehaviour

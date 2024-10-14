@@ -64,7 +64,8 @@ public partial struct SpawnSystem : ISystem
                         Rotation = prefabTransform.Rotation,
                         Scale = prefabTransform.Scale
                     });
-                    ecb.AddComponent(instance, new GhostOwner { NetworkId = request.OwnerId });
+                    ecb.AddComponent(instance, new GhostOwner { NetworkId = request.ClientId });
+                    ecb.SetName(instance, request.PlayerId);
 
                     spawnedPositions.Add(testPosition);
                     positionFound = true;

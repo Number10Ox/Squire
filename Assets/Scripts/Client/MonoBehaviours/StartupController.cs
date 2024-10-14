@@ -59,7 +59,7 @@ public class StartupController : MonoBehaviour
         var gameJoinRequestEntity = clientWorld.EntityManager.CreateEntity();
         clientWorld.EntityManager.AddComponentData(gameJoinRequestEntity, new PlayerJoinData()
         {
-            PlayerId = "1"
+            PlayerId = "Client"
         });
     }
 }
