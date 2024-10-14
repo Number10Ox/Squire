@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
@@ -45,6 +46,8 @@ public partial struct SpawnSystem : ISystem
         {
             SpawnRequestElement request = spawnRequestBuffer[i];
 
+            Debug.Log("Processing spawn request"); 
+            
             bool positionFound = false;
             for (int attempt = 0; attempt < MAX_SPAWN_ATTEMPTS; attempt++)
             {
@@ -70,6 +73,7 @@ public partial struct SpawnSystem : ISystem
                     ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
                     ecb.SetComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
                     
+                    Debug.Log("Setting name" + request.PlayerId);
                     ecb.SetName(instance, request.PlayerId);
 
                     spawnedPositions.Add(testPosition);
