@@ -2,9 +2,9 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
-using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
@@ -13,13 +13,6 @@ public partial struct SpawnSystem : ISystem
 {
     private const int MAX_SPAWN_ATTEMPTS = 50; 
     
-    private struct SpawnRequest
-    {
-        public Entity Prefab;
-        public float3 InitialPosition;
-        public float Radius;
-    }
-
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
@@ -71,6 +64,7 @@ public partial struct SpawnSystem : ISystem
                         Rotation = prefabTransform.Rotation,
                         Scale = prefabTransform.Scale
                     });
+                    ecb.AddComponent(instance, new GhostOwner { NetworkId = request.OwnerId });
 
                     spawnedPositions.Add(testPosition);
                     positionFound = true;

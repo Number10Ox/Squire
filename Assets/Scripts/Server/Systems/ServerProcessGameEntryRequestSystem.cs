@@ -23,8 +23,8 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
         {
             Debug.Log("ServerProcessGameEntryRequestSystem: Connection made");
 
-            var playerId = joinRequest.PlayerId;
-            SpawnPlayer(ref state, ecb, playerId);
+            var clientId = SystemAPI.GetComponent<NetworkId>(requestSource.SourceConnection).Value;
+            SpawnPlayer(ref state, ecb, clientId);
 
             ecb.DestroyEntity(requestEntity);
             ecb.AddComponent<NetworkStreamInGame>(requestSource.SourceConnection);
@@ -34,7 +34,7 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
         ecb.Dispose();
     }
 
-    private void SpawnPlayer(ref SystemState state, EntityCommandBuffer ecb, FixedString32Bytes playerId)
+    private void SpawnPlayer(ref SystemState state, EntityCommandBuffer ecb, int clientId)
     {
         var spawnRequestBufferEntity = SystemAPI.GetSingletonEntity<SpawnRequestElement>();
 
@@ -46,7 +46,8 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
         {
             Prefab = squirePrefab,
             InitialPosition = spawnPoint.Position,
-            Radius = 5
+            Radius = 5,
+            OwnerId = clientId 
         });
 
         var heroPrefab = SystemAPI.GetSingleton<Spawner>().HeroPrefab;
@@ -54,7 +55,8 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
         {
             Prefab = heroPrefab,
             InitialPosition = spawnPoint.Position,
-            Radius = 5
+            Radius = 5,
+            OwnerId = clientId 
         });
     }
 }
