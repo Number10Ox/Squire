@@ -22,7 +22,7 @@ public partial struct IdleActionSystem : ISystem
 
         foreach (var (activeActions, agentBody, activeTypes, entity) in
                  SystemAPI
-                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
+                     .Query<DynamicBuffer<AgentActiveActionElement>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
         {
@@ -37,7 +37,7 @@ public partial struct IdleActionSystem : ISystem
     }
 
     private void ProcessIdleActions(
-        DynamicBuffer<AgentActiveActionData> activeActions, ref AgentBody agentBody, ref SystemState state,
+        DynamicBuffer<AgentActiveActionElement> activeActions, ref AgentBody agentBody, ref SystemState state,
         EntityCommandBuffer ecb)
     {
         for (int i = 0; i < activeActions.Length; i++)
@@ -89,7 +89,7 @@ public partial struct IdleActionSystem : ISystem
             return;
         }
 
-        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionElement>(actionEntity);
         var activeActionData = buffer[0];
         var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
 
