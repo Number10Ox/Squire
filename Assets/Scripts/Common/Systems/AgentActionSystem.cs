@@ -57,7 +57,6 @@ public partial struct AgentActionSystem : ISystem
             var actionEntity = activeActions[i].ActionEntity;
             var agentAction = SystemAPI.GetComponent<AgentAction>(actionEntity);
 
-            // TODONOW IS THIS WORKING??
             if (agentAction.State == AgentActionState.Done)
             {
                 Debug.Log("Active action is DONE");
