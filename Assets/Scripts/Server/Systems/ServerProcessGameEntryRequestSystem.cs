@@ -21,6 +21,10 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
                  SystemAPI.Query<GameJoinRequest, ReceiveRpcCommandRequest>().WithEntityAccess())
 
         {
+            var playerId = joinRequest.PlayerId; 
+            
+            // TODONOW
+            
             Debug.Log("ServerProcessGameEntryRequestSystem: Connection made");
             ecb.DestroyEntity(requestEntity);
             ecb.AddComponent<NetworkStreamInGame>(requestSource.SourceConnection);
