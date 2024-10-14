@@ -647,7 +647,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 
+  prefabId: 10a53d37fb08541c7b533d2fe3d8614d
   HasOwner: 0
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0

@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.NetCode;
 using Unity.Networking.Transport;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartupController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class StartupController : MonoBehaviour
         DestroyLocalSimulationWorld();
         StartServer();
         StartClient();
+        SceneManager.LoadScene(1);
     }
     
     private static void DestroyLocalSimulationWorld()
