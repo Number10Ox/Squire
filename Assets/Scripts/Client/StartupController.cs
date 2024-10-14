@@ -8,7 +8,7 @@ public class StartupController : MonoBehaviour
     public ushort Port = 7979;
     public string Address = "127.0.0.1";
     
-    void Awake()
+    void Start()
     {
         DestroyLocalSimulationWorld();
         StartServer();
@@ -31,11 +31,11 @@ public class StartupController : MonoBehaviour
     {
         var serverWorld = ClientServerBootstrap.CreateServerWorld("Squire Server World");
 
-        var serverEndpoint = NetworkEndpoint.AnyIpv4.WithPort(Port);
-        {
-            using var networkDriverQuery = serverWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
-            networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Listen(serverEndpoint);
-        }
+        // var serverEndpoint = NetworkEndpoint.AnyIpv4.WithPort(Port);
+        // {
+        //     using var networkDriverQuery = serverWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
+        //     networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Listen(serverEndpoint);
+        // }
     }
 
     private void StartClient()
@@ -43,14 +43,14 @@ public class StartupController : MonoBehaviour
         var clientWorld = ClientServerBootstrap.CreateClientWorld("Squire Client World");
 
         var connectionEndpoint = NetworkEndpoint.Parse(Address, Port);
-        {
-            using var networkDriverQuery = clientWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
-            networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Connect(clientWorld.EntityManager, connectionEndpoint);
-        }
+        // {
+        //     using var networkDriverQuery = clientWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
+        //     networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Connect(clientWorld.EntityManager, connectionEndpoint);
+        // }
             
         World.DefaultGameObjectInjectionWorld = clientWorld;
             
-         var gameJoinRequestEntity = clientWorld.EntityManager.CreateEntity();
+        var gameJoinRequestEntity = clientWorld.EntityManager.CreateEntity();
         clientWorld.EntityManager.AddComponentData(gameJoinRequestEntity, new GameJoinRequest() { });
     }
 }
