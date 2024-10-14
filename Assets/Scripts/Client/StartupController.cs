@@ -31,6 +31,7 @@ public class StartupController : MonoBehaviour
     {
         var serverWorld = ClientServerBootstrap.CreateServerWorld("Squire Server World");
 
+        // TODO Seems to be done automatically in Editor?
         // var serverEndpoint = NetworkEndpoint.AnyIpv4.WithPort(Port);
         // {
         //     using var networkDriverQuery = serverWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
@@ -42,7 +43,8 @@ public class StartupController : MonoBehaviour
     {
         var clientWorld = ClientServerBootstrap.CreateClientWorld("Squire Client World");
 
-        var connectionEndpoint = NetworkEndpoint.Parse(Address, Port);
+        // TODO Seems to be done automatically in Editor?
+        // var connectionEndpoint = NetworkEndpoint.Parse(Address, Port);
         // {
         //     using var networkDriverQuery = clientWorld.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
         //     networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Connect(clientWorld.EntityManager, connectionEndpoint);
