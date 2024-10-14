@@ -2,6 +2,7 @@
 using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
+using UnityEngine;
 
 public partial struct ServerProcessGameEntryRequestSystem : ISystem
 {
@@ -20,6 +21,7 @@ public partial struct ServerProcessGameEntryRequestSystem : ISystem
                  SystemAPI.Query<GameJoinRequest, ReceiveRpcCommandRequest>().WithEntityAccess())
 
         {
+            Debug.Log("ServerProcessGameEntryRequestSystem: Connection made");
             ecb.DestroyEntity(requestEntity);
             ecb.AddComponent<NetworkStreamInGame>(requestSource.SourceConnection);
         }
