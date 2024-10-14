@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-public struct AgentPendingActionData : IBufferElementData
+public struct AgentPendingActionElement : IBufferElementData
 {
     public Entity ActionEntity;
 }

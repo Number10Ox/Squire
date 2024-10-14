@@ -16,8 +16,8 @@ public class HeroAuthoring : MonoBehaviour
             var entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new HeroTag());
             AddComponent(entity, new AgentTag());
-            AddBuffer<AgentPendingActionData>(entity);
-            AddBuffer<AgentActiveActionData>(entity);
+            AddBuffer<AgentPendingActionElement>(entity);
+            AddBuffer<AgentActiveActionElement>(entity);
             AddComponent(entity, new AgentActiveActionType());
 
             HeroAI heroAI = new HeroAI();

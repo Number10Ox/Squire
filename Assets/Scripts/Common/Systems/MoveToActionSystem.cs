@@ -28,7 +28,7 @@ public partial struct MoveToActionSystem : ISystem
 
         foreach (var (activeActions, agentBody, activeTypes, animationParameters, entity) in
                  SystemAPI
-                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>,
+                     .Query<DynamicBuffer<AgentActiveActionElement>, RefRW<AgentBody>, RefRO<AgentActiveActionType>,
                          AnimatorParametersAspect>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
@@ -41,7 +41,7 @@ public partial struct MoveToActionSystem : ISystem
     }
 
     private void ProcessMoveToActions(
-        DynamicBuffer<AgentActiveActionData> activeActions, AnimatorParametersAspect animationParameters,
+        DynamicBuffer<AgentActiveActionElement> activeActions, AnimatorParametersAspect animationParameters,
         ref AgentBody agentBody, ref SystemState state,
         EntityCommandBuffer ecb)
     {
@@ -106,7 +106,7 @@ public partial struct MoveToActionSystem : ISystem
             return;
         }
 
-        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionElement>(actionEntity);
         var activeActionData = buffer[0];
         var runningActionData = SystemAPI.GetComponent<AgentAction>(activeActionData.ActionEntity);
 

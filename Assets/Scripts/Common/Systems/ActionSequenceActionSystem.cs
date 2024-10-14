@@ -25,7 +25,7 @@ public partial struct ActionSequenceActionSystem : ISystem
 
         foreach (var (activeActions, agentBody, activeActionTypes, entity) in
                  SystemAPI
-                     .Query<DynamicBuffer<AgentActiveActionData>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
+                     .Query<DynamicBuffer<AgentActiveActionElement>, RefRW<AgentBody>, RefRO<AgentActiveActionType>>()
                      .WithAll<AgentTag>()
                      .WithEntityAccess())
         {
@@ -40,7 +40,7 @@ public partial struct ActionSequenceActionSystem : ISystem
     }
 
     // Agent has a sequence action among its active actions
-    private void ProcessActionSequenceActions(DynamicBuffer<AgentActiveActionData> activeActions,
+    private void ProcessActionSequenceActions(DynamicBuffer<AgentActiveActionElement> activeActions,
         ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
     {
         for (int i = 0; i < activeActions.Length; i++)
@@ -79,7 +79,7 @@ public partial struct ActionSequenceActionSystem : ISystem
     private void UpdateCurrentActionInSequence(Entity actionEntity, ref AgentAction actionData,
         ref AgentBody agentBody, ref SystemState state, EntityCommandBuffer ecb)
     {
-        var buffer = SystemAPI.GetBuffer<AgentSequenceActionData>(actionEntity);
+        var buffer = SystemAPI.GetBuffer<AgentSequenceActionElement>(actionEntity);
 
         if (buffer.IsEmpty)
         {
@@ -98,13 +98,13 @@ public partial struct ActionSequenceActionSystem : ISystem
         switch (runningAction.Result)
         {
             case AgentActionResult.Success:
-                var newBuffer = new NativeArray<AgentSequenceActionData>(buffer.Length - 1, Allocator.Temp);
+                var newBuffer = new NativeArray<AgentSequenceActionElement>(buffer.Length - 1, Allocator.Temp);
                 for (int i = 1; i < buffer.Length; i++)
                 {
                     newBuffer[i - 1] = buffer[i];
                 }
 
-                ecb.SetBuffer<AgentSequenceActionData>(actionEntity).CopyFrom(newBuffer);
+                ecb.SetBuffer<AgentSequenceActionElement>(actionEntity).CopyFrom(newBuffer);
                 newBuffer.Dispose();
                 
                 if (buffer.Length == 1) // Will be empty after removal

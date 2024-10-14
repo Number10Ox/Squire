@@ -21,6 +21,7 @@ public partial struct HeroAISystem : ISystem
         var ecb = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
+        // TODO You need to find squire for the hero... and not expect a singleton squire
         var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
         var agentTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true);
 
@@ -106,7 +107,7 @@ public partial struct HeroAISystem : ISystem
                     State = AgentActionState.NotStarted,
                     Result = AgentActionResult.Pending
                 }); 
-                Ecb.AppendToBuffer(sortKey, entity, new AgentPendingActionData()
+                Ecb.AppendToBuffer(sortKey, entity, new AgentPendingActionElement()
                 {
                     ActionEntity = actionEntity
                 });

@@ -10,8 +10,8 @@ public class SquireAuthoring : MonoBehaviour
             var entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new SquireTag());
             AddComponent(entity, new AgentTag());
-            AddBuffer<AgentPendingActionData>(entity);
-            AddBuffer<AgentActiveActionData>(entity);
+            AddBuffer<AgentPendingActionElement>(entity);
+            AddBuffer<AgentActiveActionElement>(entity);
             AddComponent(entity, new AgentActiveActionType());
         }
     }
