@@ -1093,52 +1093,6 @@ MonoBehaviour:
   m_DefaultActionMap: DungeonMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 330585545}
---- !u!1 &1977833314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1977833316}
-  - component: {fileID: 1977833317}
-  m_Layer: 0
-  m_Name: Startup_Transform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1977833316
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977833314}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1977833317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977833314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6702a838189462bbfe149894f7296fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Port: 7979
-  Address: 127.0.0.1
 --- !u!4 &2102234670 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1413908013466197618, guid: ccdaec03a8c964219a97a5eb215aa29f, type: 3}
@@ -1217,4 +1171,3 @@ SceneRoots:
   - {fileID: 532472670}
   - {fileID: 27147094}
   - {fileID: 1106146373}
-  - {fileID: 1977833316}

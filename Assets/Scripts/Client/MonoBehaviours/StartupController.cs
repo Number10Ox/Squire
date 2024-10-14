@@ -1,6 +1,5 @@
 using Unity.Entities;
 using Unity.NetCode;
-using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,12 +10,14 @@ public class StartupController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("StartupController: Start");
+        
         // Automatically select address and port to run locally, destroy default world,
         // create client and server worlds, and load into dungeon
         DestroyLocalSimulationWorld();
         StartServer();
         StartClient();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("DungeonWorld");
     }
 
     private static void DestroyLocalSimulationWorld()
