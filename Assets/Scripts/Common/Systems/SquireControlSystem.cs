@@ -4,7 +4,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 [UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
-public partial struct PlayerControlSystem : ISystem
+public partial struct SquireControlSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
     {

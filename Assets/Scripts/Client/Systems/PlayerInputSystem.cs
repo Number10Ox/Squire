@@ -23,6 +23,7 @@ public partial class PlayerInputSystem : SystemBase
 
     protected override void OnStartRunning()
     {
+        Debug.Log("******* Starting running....");
         squireInputActions.Enable();
         squireInputActions.DungeonMap.Scroll.performed += OnScroll;
         squireInputActions.DungeonMap.Interact.performed += OnInteract;
@@ -60,7 +61,7 @@ public partial class PlayerInputSystem : SystemBase
         var rayStart = ray.origin;
         var rayEnd = ray.GetPoint(1000f);
 
-        // Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2f); 
+        Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2f); 
         bool hit = Raycast(rayStart, rayEnd, out var raycastHit);
         if (!hit || raycastHit.Entity == Entity.Null)
             return;
@@ -70,7 +71,7 @@ public partial class PlayerInputSystem : SystemBase
         CollisionLayers layers = CollisionLayersFromRaycastHit(raycastHit);
         if ((layers & CollisionLayers.Ground) != 0)
         {
-            // Debug.Log("Enabling *TargetPosition* on PlayerEntity!");
+            Debug.Log("Enabling *TargetPosition* on PlayerEntity!");
 
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
             var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
