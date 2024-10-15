@@ -1,12 +1,13 @@
 using System;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Physics;
 using RaycastHit = Unity.Physics.RaycastHit;
 
-[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateInGroup(typeof(GhostInputSystemGroup))]
 public partial class PlayerInputSystem : SystemBase
 {
     private SquireInputActions squireInputActions;
@@ -14,7 +15,7 @@ public partial class PlayerInputSystem : SystemBase
 
     protected override void OnCreate()
     {
-        RequireForUpdate<PlayerTag>();
+        RequireForUpdate<SquireTag>();
         RequireForUpdate<DirectoryManaged>();
 
         squireInputActions = new SquireInputActions();
@@ -73,12 +74,12 @@ public partial class PlayerInputSystem : SystemBase
 
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
             var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
-            targetPositionComponent.targetPosition = raycastHit.Position;
+            targetPositionComponent.Position = raycastHit.Position;
 
             SystemAPI.SetComponent(playerEntity, targetPositionComponent);
             SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
 
-            // Debug.LogFormat("Setting targetPositionComponent {0}", targetPositionComponent.targetPosition);
+            // Debug.LogFormat("Setting targetPositionComponent {0}", targetPositionComponent.TargetPosition);
         }
         else if ((layers & CollisionLayers.Interactable) != 0)
         {
@@ -86,7 +87,7 @@ public partial class PlayerInputSystem : SystemBase
             
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
             var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
-            targetEntityComponent.target = raycastHit.Entity;
+            targetEntityComponent.Target = raycastHit.Entity;
             SystemAPI.SetComponent(playerEntity, targetEntityComponent);
             SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
         }
