@@ -18,14 +18,13 @@ public class SquireAuthoring : MonoBehaviour
             AddComponent(entity, new TargetPosition()
             {
                 Position = float3.zero,
+                IsSet = false
             });
             AddComponent(entity, new TargetEntity()
             {
-                Target = Entity.Null
+                Target = Entity.Null,
+                IsSet = false
             });
-            
-            SetComponentEnabled<TargetPosition>(entity, false);
-            SetComponentEnabled<TargetEntity>(entity, false);
         }
     }
 }

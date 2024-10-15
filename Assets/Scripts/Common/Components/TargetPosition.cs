@@ -1,7 +1,10 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 
-public struct TargetPosition  : IComponentData, IEnableableComponent
+[GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
+public struct TargetPosition  : IInputComponentData
 {
-    public float3 Position; 
+    [GhostField(Quantization = 0)] public float3 Position; 
+    [GhostField] public bool IsSet;
 }

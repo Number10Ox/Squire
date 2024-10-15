@@ -1,5 +1,6 @@
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -18,18 +19,19 @@ public partial struct SquireControlSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var squireEntity in SystemAPI.QueryBuilder()
+        foreach (var (targetPosition, targetEntity, entity) in SystemAPI.Query<
+                         RefRO<TargetPosition>,
+                         RefRO<TargetEntity>>()
                      .WithAll<SquireTag>()
-                     .Build()
-                     .ToEntityArray(Allocator.Temp))
+                     .WithEntityAccess())
         {
-            if (SystemAPI.IsComponentEnabled<TargetPosition>(squireEntity))
+            if (targetPosition.ValueRO.IsSet)
             {
-                MoveToPosition(ref state, squireEntity);
+                MoveToPosition(ref state, entity);
             }
-            else if (SystemAPI.IsComponentEnabled<TargetEntity>(squireEntity))
+            else if (targetEntity.ValueRO.IsSet)
             {
-                MoveToAndInteractWithEntity(ref state, squireEntity);
+                MoveToAndInteractWithEntity(ref state, entity);
             }
         }
     }
@@ -64,8 +66,11 @@ public partial struct SquireControlSystem : ISystem
             ActionEntity = actionEntity
         });
 
-        // Disable player TargetPosition component
-        ecb.SetComponentEnabled<TargetPosition>(squireEntity, false);
+        ecb.SetComponent(squireEntity, new TargetPosition()
+        {
+            Position = float3.zero,
+            IsSet = false
+        });
     }
 
     private void MoveToAndInteractWithEntity(ref SystemState state, Entity squireEntity)
@@ -130,6 +135,10 @@ public partial struct SquireControlSystem : ISystem
         });
 
         // Disable player TargetEntity component
-        ecb.SetComponentEnabled<TargetEntity>(squireEntity, false);
+        ecb.SetComponent(squireEntity, new TargetEntity
+        {
+            Target = Entity.Null,
+            IsSet = false
+        });
     }
 }

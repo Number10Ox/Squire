@@ -23,7 +23,6 @@ public partial class PlayerInputSystem : SystemBase
 
     protected override void OnStartRunning()
     {
-        Debug.Log("******* Starting running....");
         squireInputActions.Enable();
         squireInputActions.DungeonMap.Scroll.performed += OnScroll;
         squireInputActions.DungeonMap.Interact.performed += OnInteract;
@@ -62,11 +61,12 @@ public partial class PlayerInputSystem : SystemBase
         var rayEnd = ray.GetPoint(1000f);
 
         Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2f); 
+        
         bool hit = Raycast(rayStart, rayEnd, out var raycastHit);
         if (!hit || raycastHit.Entity == Entity.Null)
             return;
         
-        // Debug.LogFormat("Raycast hit! Position: {0}, Entity{1}", raycastHit.Position, raycastHit.Entity);
+        Debug.LogFormat("Raycast hit! Position: {0}, Entity{1}", raycastHit.Position, raycastHit.Entity);
 
         CollisionLayers layers = CollisionLayersFromRaycastHit(raycastHit);
         if ((layers & CollisionLayers.Ground) != 0)
@@ -76,9 +76,9 @@ public partial class PlayerInputSystem : SystemBase
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
             var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
             targetPositionComponent.Position = raycastHit.Position;
+            targetPositionComponent.IsSet = true;
 
             SystemAPI.SetComponent(playerEntity, targetPositionComponent);
-            SystemAPI.SetComponentEnabled<TargetPosition>(playerEntity, true);
 
             // Debug.LogFormat("Setting targetPositionComponent {0}", targetPositionComponent.TargetPosition);
         }
@@ -89,8 +89,8 @@ public partial class PlayerInputSystem : SystemBase
             var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
             var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
             targetEntityComponent.Target = raycastHit.Entity;
+            targetEntityComponent.IsSet = true;
             SystemAPI.SetComponent(playerEntity, targetEntityComponent);
-            SystemAPI.SetComponentEnabled<TargetEntity>(playerEntity, true);
         }
     }
 
