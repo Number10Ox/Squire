@@ -1,8 +1,10 @@
 
 using Unity.Entities;
-using Unity.Mathematics;
+using Unity.NetCode;
 
-public struct TargetEntity : IComponentData, IEnableableComponent
+[GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
+public struct TargetEntity : IInputComponentData
 {
     public Entity Target;
+    [GhostField] public bool IsSet;
 }
