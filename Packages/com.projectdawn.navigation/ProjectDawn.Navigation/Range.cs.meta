@@ -1,7 +1,11 @@
 fileFormatVersion: 2
-guid: e04f36f8ebcfe3a47ba17ac95c464409
-AssemblyDefinitionImporter:
+guid: 2cd7a584fea33694a94106d7450c4d3a
+MonoImporter:
   externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -10,5 +14,5 @@ AssetOrigin:
   productId: 239233
   packageName: Agents Navigation
   packageVersion: 4.0.8
-  assetPath: Packages/com.projectdawn.navigation/ProjectDawn.Navigation.Editor/ProjectDawn.Navigation.Editor.asmdef
+  assetPath: Packages/com.projectdawn.navigation/ProjectDawn.Navigation/Range.cs
   uploadId: 700319

@@ -12,9 +12,8 @@ using Random = Unity.Mathematics.Random;
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial struct SpawnSystem : ISystem
 {
-    private const int MAX_SPAWN_ATTEMPTS = 50; 
-    
-    [BurstCompile]
+    private const int MAX_SPAWN_ATTEMPTS = 50;
+
     public void OnCreate(ref SystemState state)
     {
         // Require necessary components for update
@@ -26,12 +25,13 @@ public partial struct SpawnSystem : ISystem
         state.EntityManager.AddBuffer<SpawnRequestElement>(entity);
     }
 
-    [BurstCompile]
+    // TODO There's a managed data command somewhere here!? 
+    // [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var ecbSingleton = SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
+        
         var spawnRequestBuffer = SystemAPI.GetSingletonBuffer<SpawnRequestElement>();
         var spawnRequestBufferEntity = SystemAPI.GetSingletonEntity<SpawnRequestElement>();
 
@@ -39,17 +39,15 @@ public partial struct SpawnSystem : ISystem
         var collisionWorld = physicsWorld.PhysicsWorld.CollisionWorld;
 
         var spawnedPositions = new NativeList<float3>(Allocator.Temp);
-        
+
         var random = new Random((uint)System.DateTime.Now.Ticks);
 
         for (int i = 0; i < spawnRequestBuffer.Length; ++i)
         {
             SpawnRequestElement request = spawnRequestBuffer[i];
 
-            Debug.Log("Processing spawn request"); 
-            
             bool positionFound = false;
-            for (int attempt = 0; attempt < MAX_SPAWN_ATTEMPTS; attempt++)
+            for (int attempt = 0; attempt < MAX_SPAWN_ATTEMPTS; ++attempt)
             {
                 // Generate a random offset within the spawn radius
                 float2 randomOffset = random.NextFloat2Direction() * request.Radius;
@@ -67,14 +65,25 @@ public partial struct SpawnSystem : ISystem
                         Rotation = prefabTransform.Rotation,
                         Scale = prefabTransform.Scale
                     });
-                    
+
                     var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
                     ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
-                    ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+
+                    if (SystemAPI.HasBuffer<LinkedEntityGroup>(request.SourceConnection))
+                    {
+                        Debug.Log("Has buffer!");
+                        ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+                    }
+                    else
+                    {
+                        Debug.Log("No LinkedEntityGroup buffer!");
+                    }
+
                     ecb.SetComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
-                    
-                    Debug.Log("Setting name" + request.PlayerId);
-                    ecb.SetName(instance, request.PlayerId);
+
+                    // FixedString32Bytes playerId = request.PlayerId;
+                    // FixedString64Bytes playerId64 = playerId;
+                    // ecb.SetName(instance, playerId64);
 
                     spawnedPositions.Add(testPosition);
                     positionFound = true;
@@ -93,16 +102,28 @@ public partial struct SpawnSystem : ISystem
                     Rotation = prefabTransform.Rotation,
                     Scale = prefabTransform.Scale
                 });
+                
+                // var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
+                // ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
+                // ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+                // ecb.AddComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
+
+                // FixedString32Bytes playerId = request.PlayerId;
+                //FixedString64Bytes playerId64 = playerId;
+                // ecb.SetName(instance, playerId64);
+                
                 spawnedPositions.Add(request.InitialPosition);
             }
         }
 
         spawnedPositions.Dispose();
-        
+
         // Clear spawn request buffer
         ecb.SetBuffer<SpawnRequestElement>(spawnRequestBufferEntity);
     }
-
+    
+    // TODO There's a managed data command somewhere here!? 
+    // [BurstCompile]
     private bool IsPositionOccupied(CollisionWorld collisionWorld, float3 position, NativeList<float3> spawnedPositions)
     {
         // Check against existing physics bodies
@@ -126,6 +147,8 @@ public partial struct SpawnSystem : ISystem
         return false;
     }
 
+    // TODO There's a managed data command somewhere here!? 
+    // [BurstCompile]
     private bool PhysicsOverlap(CollisionWorld collisionWorld, float3 position, float radius, CollisionFilter filter)
     {
         var aabb = new Aabb
