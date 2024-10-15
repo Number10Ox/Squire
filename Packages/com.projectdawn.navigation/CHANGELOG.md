@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [4.0.8] - 2024-10-06
+- Added Hybrid game object and entity connection. As result in dots hierarchy you can select runtime mode and see actualy entity connected to it
+- Fixed compatibility with the A* Pathfinding Project package version 5.2.
+
 ## [4.0.7] - 2024-10-05
 - Moved gizmos buffer from editor for easier debuging, still works only in editor
 - Fixed rare exception: ArgumentException: Radius must be greater than zero
@@ -198,7 +202,7 @@ UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)"
 - Added SetDestination method to AgentAuthoring
 - Changed that if agent is not near any NavMesh it will throw error instead moved to the center of the world
 - Changed dependency com.unity.entities version to 1.0.14
-- Fixed few cases where NavMesh update would result in "Any jobs using NavMeshQuery must be completed before we mutate the NavMesh." 
+- Fixed few cases where NavMesh update would result in "Any jobs using NavMeshQuery must be completed before we mutate the NavMesh."
 
 ## [3.0.2] - 2022-12-15
 - Fixed NavMesh at the end of destination throwing error `System.IndexOutOfRangeException: Index {0} is out of range of '{1}' Length`.

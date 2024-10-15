@@ -4,6 +4,7 @@ using Unity.NetCode;
 using UnityEngine;
 
 [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
+[UpdateInGroup(typeof(SimulationSystemGroup))] 
 public partial struct ServerProcessGameEntryRequestSystem : ISystem
 {
     public void OnCreate(ref SystemState state)

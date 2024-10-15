@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5bf59a07415a5924e86a6ea013f3f4f9
+guid: b08168cf11d3a414094963354e66a6eb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 239233
   packageName: Agents Navigation
   packageVersion: 4.0.8
-  assetPath: Packages/com.projectdawn.navigation/ProjectDawn.LocalAvoidance/SonarNode.cs
+  assetPath: Packages/com.projectdawn.navigation/ProjectDawn.Navigation.Editor/Drawers/RangeDrawer.cs
   uploadId: 700319
