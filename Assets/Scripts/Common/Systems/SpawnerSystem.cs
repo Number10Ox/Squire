@@ -68,22 +68,12 @@ public partial struct SpawnSystem : ISystem
 
                     var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
                     ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
+                    ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+                    ecb.AddComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
 
-                    if (SystemAPI.HasBuffer<LinkedEntityGroup>(request.SourceConnection))
-                    {
-                        Debug.Log("Has buffer!");
-                        ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
-                    }
-                    else
-                    {
-                        Debug.Log("No LinkedEntityGroup buffer!");
-                    }
-
-                    ecb.SetComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
-
-                    // FixedString32Bytes playerId = request.PlayerId;
-                    // FixedString64Bytes playerId64 = playerId;
-                    // ecb.SetName(instance, playerId64);
+                    FixedString32Bytes playerId = request.PlayerId;
+                    FixedString64Bytes playerId64 = playerId;
+                    ecb.SetName(instance, playerId64);
 
                     spawnedPositions.Add(testPosition);
                     positionFound = true;
@@ -103,14 +93,14 @@ public partial struct SpawnSystem : ISystem
                     Scale = prefabTransform.Scale
                 });
                 
-                // var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
-                // ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
-                // ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
-                // ecb.AddComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
+                var clientId = SystemAPI.GetComponent<NetworkId>(request.SourceConnection).Value;
+                ecb.AddComponent(instance, new GhostOwner { NetworkId = clientId });
+                ecb.AppendToBuffer(request.SourceConnection, new LinkedEntityGroup { Value = instance });
+                ecb.AddComponent(instance, new NetworkEntityReference { Value = request.SourceConnection });
 
-                // FixedString32Bytes playerId = request.PlayerId;
-                //FixedString64Bytes playerId64 = playerId;
-                // ecb.SetName(instance, playerId64);
+                FixedString32Bytes playerId = request.PlayerId;
+                FixedString64Bytes playerId64 = playerId;
+                ecb.SetName(instance, playerId64);
                 
                 spawnedPositions.Add(request.InitialPosition);
             }
