@@ -4,5 +4,5 @@ using Unity.Mathematics;
 
 public struct TargetEntity : IComponentData, IEnableableComponent
 {
-    public Entity target;
+    public Entity Target;
 }
