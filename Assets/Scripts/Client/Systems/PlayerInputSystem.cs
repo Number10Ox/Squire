@@ -1,4 +1,3 @@
-using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
@@ -73,12 +72,12 @@ public partial class PlayerInputSystem : SystemBase
         {
             Debug.Log("Enabling *TargetPosition* on PlayerEntity!");
 
-            var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>();
-            var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(playerEntity);
+            var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>();
+            var targetPositionComponent = SystemAPI.GetComponent<TargetPosition>(squireEntity);
             targetPositionComponent.Position = raycastHit.Position;
             targetPositionComponent.IsSet = true;
 
-            SystemAPI.SetComponent(playerEntity, targetPositionComponent);
+            SystemAPI.SetComponent(squireEntity, targetPositionComponent);
 
             // Debug.LogFormat("Setting targetPositionComponent {0}", targetPositionComponent.TargetPosition);
         }
@@ -86,11 +85,11 @@ public partial class PlayerInputSystem : SystemBase
         {
             Debug.Log("Enabling *TargetEntity* on PlayerEntity!");
             
-            var playerEntity = SystemAPI.GetSingletonEntity<PlayerTag>(); 
-            var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(playerEntity);
+            var squireEntity = SystemAPI.GetSingletonEntity<SquireTag>(); 
+            var targetEntityComponent = SystemAPI.GetComponent<TargetEntity>(squireEntity);
             targetEntityComponent.Target = raycastHit.Entity;
             targetEntityComponent.IsSet = true;
-            SystemAPI.SetComponent(playerEntity, targetEntityComponent);
+            SystemAPI.SetComponent(squireEntity, targetEntityComponent);
         }
     }
 
