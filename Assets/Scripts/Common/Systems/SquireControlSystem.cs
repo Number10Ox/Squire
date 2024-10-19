@@ -3,6 +3,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
+[WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
 [UpdateInGroup(typeof(InitializationSystemGroup)), UpdateAfter(typeof(PlayerInputSystem))]
 public partial struct SquireControlSystem : ISystem
 {
